@@ -2,6 +2,7 @@ import React, {Component, useEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import Login from '../screens/Login';
+import ChangeOrganization from '../screens/ChangeOrganization'
 import Dashboard from '../screens/Dashboard';
 import {useSelector} from 'react-redux';
 import Loader from '../components/Loader'
@@ -18,6 +19,7 @@ export default function Routes() {
       {!isLogin ? (
         <Stack.Navigator initialRouteName="Login" headerMode="none">
           <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="ChangeOrganization" component={ChangeOrganization} />
         </Stack.Navigator>
       ) : (
         <Stack.Navigator initialRouteName="Dashboard" headerMode="none">

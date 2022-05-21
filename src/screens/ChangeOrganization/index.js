@@ -83,7 +83,7 @@ export default function Dashboard(props) {
         />
         </View>
 
-        <Text onPress={()=>props.navigation.navigate('ChangeOrganization')} style={styles.changeorganizationStyle}>Change organization</Text>
+        <Text style={styles.changeorganizationStyle}>Change organization</Text>
         <View style={styles.underline}></View>
        
       </View>
