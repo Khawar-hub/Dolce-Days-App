@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
   imageStyleSmall:{
     height:height(8),
     width:width(38),
-    marginTop:height(2),
+    marginTop:height(8),
     marginBottom:height(2),
     tintColor:AppColors.gray
    
@@ -118,7 +118,47 @@ const styles = StyleSheet.create({
     width:width(36),
     height:1,
     backgroundColor:AppColors.gray
-  }
+  },
+ pickerView:{
+   height:height(31),
+   width:width(90),
+   backgroundColor:AppColors.white,
+   marginTop:height(8),
+   borderRadius:6,
+   paddingHorizontal:10,
+   paddingVertical:10
+ },
+ pickerViewHeading:{
+   fontSize:18,
+   fontWeight:'bold'
+ },
+ label:{
+   fontSize:13,
+   fontWeight:'bold',
+   marginTop:height(3)
+ },
+ label2:{
+  fontSize:13,
+  fontWeight:'bold',
+  marginTop:height(1)
+},
+btnView:{
+  flexDirection:'row',
+  justifyContent:'space-between',
+  marginTop:height(1.5)
+},
+btnSmall:{
+  height:height(5),
+  width:width(41),
+  borderRadius:10,
+  backgroundColor:AppColors.btnBackgroundColorLight,
+  alignItems:'center',
+  justifyContent:'center'
+},
+btnSmallText:{
+  fontFamily:"Quicksand-SemiBold",
+  color:AppColors.white,
+}
 
 
 });
