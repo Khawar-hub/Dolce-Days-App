@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Text, View,Image } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
 import { ScreenWrapper } from 'react-native-screen-wrapper';
 import { useDispatch, useSelector } from 'react-redux';
@@ -26,8 +26,12 @@ export default function Dashboard(props) {
   return (
     <ScreenWrapper statusBarColor={AppColors.white} barStyle='dark-content'>
       <View style={styles.mainViewContainer}>
-        <Text> Login</Text>
-        <Button title="Login" onPress={loginMethod} />
+        <Image
+          source={require('../../assets/images/logo.png')}
+          resizeMode="contain"
+          style={styles.imageStyle}
+      
+        />
       </View>
     </ScreenWrapper>
   );
