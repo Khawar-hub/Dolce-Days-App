@@ -153,7 +153,7 @@ const pickerSelectStyles = StyleSheet.create({
     borderColor: '#00000029',
     backgroundColor: AppColors.white,
     fontSize: 12,
-
+    
    
     color:AppColors.btnBackgroundColorDark,
     borderRadius: 2,

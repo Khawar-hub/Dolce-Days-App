@@ -8,6 +8,7 @@ import {setLoaderVisible} from '../../Redux/Actions/Config';
 import AppColors from '../../utills/AppColors';
 import styles from './styles';
 export default function Dashboard(props) {
+
   const user = useSelector((state) => state.Auth.user);
   const dispatch = useDispatch();
   const loginMethod = () => {
@@ -22,6 +23,9 @@ export default function Dashboard(props) {
       dispatch(login({userName: 'John Doe'}));
     }, 1500);
   };
+  const Login=()=>{
+      dispatch(login())
+  }
   return (
 
     <ScreenWrapper  statusBarColor={'#f2f2f2'} barStyle="dark-content">
@@ -57,7 +61,7 @@ export default function Dashboard(props) {
           </View>
 
           <View>
-            <TouchableOpacity style={styles.loginBtn}>
+            <TouchableOpacity onPress={()=>Login()} style={styles.loginBtn}>
                 <Text style={styles.btnText}>Log in</Text>
             </TouchableOpacity>
           </View>

@@ -1,0 +1,54 @@
+import React from 'react';
+import {ActivityIndicator,Image,View, Text, TouchableOpacity} from 'react-native';
+import { height, width } from 'react-native-dimension';
+import AppColors from '../../utills/AppColors';
+import styles from './styles';
+import Ionic from 'react-native-vector-icons/Ionicons'
+const Button = ({
+  title,
+  name,
+  price,
+  des,
+  img,
+  onPress,
+  activeOpacity,
+  containerStyle = {},
+  textStyle = {},
+}) => {
+  return (
+    <TouchableOpacity
+      onPress={onPress}
+      activeOpacity={activeOpacity}
+      style={[styles.container, containerStyle]}>
+      <View style={styles.imgView}>
+         
+            <Image
+            source={require('../../assets/images/logo.png')}
+            resizeMode="contain"
+            style={styles.imageStyle}
+            
+          />
+        
+      </View>
+      <View style={styles.infoView}>
+          <View style={styles.topView}>
+              <Text style={styles.name}>{name}</Text>
+              <Text style={[styles.name,{marginRight:width(5)}]}>AED {price}</Text>
+
+          </View>
+          <View style={[styles.topView,{marginTop:height(3.6)}]}>
+              <Text style={styles.des}>{des}</Text>
+              <TouchableOpacity style={[styles.cartBtn,{marginRight:width(6)}]}>
+                 <Ionic size={20} name='cart-outline' color={'#fff'}/>
+              </TouchableOpacity>
+
+          </View>
+
+      </View>
+
+      
+    </TouchableOpacity>
+  );
+};
+
+export default Button;

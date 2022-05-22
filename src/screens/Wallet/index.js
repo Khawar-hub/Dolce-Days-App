@@ -7,7 +7,7 @@ import Button from '../../components/Button';
 import { logout } from '../../Redux/Actions/Auth';
 import AppColors from '../../utills/AppColors';
 import styles from './styles';
-export default function Dashboard(props) {
+export default function Wallet(props) {
   const user = useSelector((state) => state.Auth.user);
   const dispatch = useDispatch();
   const logoutMethod = async () => {
@@ -15,15 +15,13 @@ export default function Dashboard(props) {
       message: 'Logged Out',
       description: 'Succfully logged out',
       type: 'danger',
-    });
+    });d
     dispatch(logout());
   };
   return (
-    <ScreenWrapper statusBarColor={AppColors.white} barStyle="dark-content">
+    <ScreenWrapper  statusBarColor={'#f2f2f2'} >
       <View style={styles.mainViewContainer}>
-        <Text style={styles.text}>Dashboard</Text>
-    
-        <Button title="Logout" onPress={logoutMethod} />
+       
       </View>
     </ScreenWrapper>
   );
