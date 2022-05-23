@@ -14,6 +14,7 @@ const Button = ({
   activeOpacity,
   containerStyle = {},
   textStyle = {},
+  cartPress
 }) => {
   return (
     <TouchableOpacity
@@ -38,7 +39,7 @@ const Button = ({
           </View>
           <View style={[styles.topView,{marginTop:height(3.6)}]}>
               <Text style={styles.des}>{des}</Text>
-              <TouchableOpacity style={[styles.cartBtn,{marginRight:width(6)}]}>
+              <TouchableOpacity onPress={cartPress} style={[styles.cartBtn,{marginRight:width(6)}]}>
                  <Ionic size={20} name='cart-outline' color={'#fff'}/>
               </TouchableOpacity>
 

@@ -10,16 +10,17 @@ import Button from '../../components/Button';
 import { logout } from '../../Redux/Actions/Auth';
 import AppColors from '../../utills/AppColors';
 import styles from './styles';
-export default function Home({props,route}) {
-    const item=[{img:'',name:'item 1',price:"00.00",des:'lorem ipsum dolor sir amet, consecterur upsdo sjdh'},
-    {img:'',name:'item 2',price:"00.00",des:'lorem ipsum dolor sir amet, consecterur upsdo sjdh'},
-    {img:'',name:'item 3',price:"00.00",des:'lorem ipsum dolor sir amet, consecterur upsdo sjdh'},
-    {img:'',name:'item 4',price:"00.00",des:'lorem ipsum dolor sir amet, consecterur upsdo sjdh'},
-    {img:'',name:'item 5',price:"00.00",des:'lorem ipsum dolor sir amet, consecterur upsdo sjdh'},
-    {img:'',name:'item 6',price:"00.00",des:'lorem ipsum dolor sir amet, consecterur upsdo sjdh'},
-]
-    const {name}=route?.params
-  const user = useSelector((state) => state.Auth.user);
+import { addItem } from '../../Redux/Actions/Cart';
+export default function Home(props) {
+  console.log(props.route?.params.name)
+    const item=[{img:'',name:'item 1',price:"00.00",des:'lorem ipsum dolor sir amet, consecterur upsdo sjdh lorem ipsum dolor sir amet, consecterur upsdo sjdh lorem ipsum dolor sir amet, consecterur upsdo sjdh lorem ipsum dolor sir amet, consecterur upsdo sjdh'},
+    {img:'',name:'item 2',price:"50.00",des:'lorem ipsum dolor sir amet, consecterur upsdo sjdh lorem ipsum dolor sir amet, consecterur upsdo sjdh lorem ipsum dolor sir amet, consecterur upsdo sjdh lorem ipsum dolor sir amet, consecterur upsdo sjdh lorem ipsum dolor sir amet, consecterur upsdo sjdh'},
+    {img:'',name:'item 3',price:"60.00",des:'lorem ipsum dolor sir amet, consecterur upsdo sjdh lorem ipsum dolor sir amet, consecterur upsdo sjdh lorem ipsum dolor sir amet, consecterur upsdo sjdh lorem ipsum dolor sir amet, consecterur upsdo sjdh lorem ipsum dolor sir amet, consecterur upsdo sjdh'},
+    {img:'',name:'item 4',price:"70.00",des:'lorem ipsum dolor sir amet, consecterur upsdo sjdh lorem ipsum dolor sir amet, consecterur upsdo sjdh lorem ipsum dolor sir amet, consecterur upsdo sjdh lorem ipsum dolor sir amet, consecterur upsdo sjdh'},
+    {img:'',name:'item 5',price:"80.00",des:'lorem ipsum dolor sir amet, consecterur upsdo sjdh lorem ipsum dolor sir amet, consecterur upsdo sjdh lorem ipsum dolor sir amet, consecterur upsdo sjdh lorem ipsum dolor sir amet, consecterur upsdo sjdh' },
+    {img:'',name:'item 6',price:"90.00",des:'lorem ipsum dolor sir amet, consecterur upsdo sjdh lorem ipsum dolor sir amet, consecterur upsdo sjdh lorem ipsum dolor sir amet, consecterur upsdo sjdh lorem ipsum dolor sir amet, consecterur upsdo sjdh'},
+    ]
+  const cart = useSelector((state) => state.Cart.cart);
   const dispatch = useDispatch();
   const logoutMethod = async () => {
     showMessage({
@@ -32,6 +33,10 @@ export default function Home({props,route}) {
   const renderItem=({item,index})=>{
       return(
         <Item
+        cartPress={addItem([...cart,item])}
+        onPress={()=>props.navigation.navigate("ItemDetail",{
+         data: item
+        })}
           name={item.name}
           price={item.price}
           des={item.des}
@@ -51,7 +56,7 @@ export default function Home({props,route}) {
           
         />
         </View>
-        <Text style={styles.textHeading}>{name}</Text>
+        <Text style={styles.textHeading}>{props.route?.params.name}</Text>
         <View style={styles.boxView}>
          <FlatList
          data={item}
