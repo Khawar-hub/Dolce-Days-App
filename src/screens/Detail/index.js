@@ -47,7 +47,7 @@ export default function Home({props,route}) {
         <Image
           source={require('../../assets/images/logo.png')}
           resizeMode="contain"
-          style={styles.imageStyle}
+          style={styles.imageStyle} 
           
         />
         </View>
