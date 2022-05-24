@@ -32,15 +32,16 @@ const styles = StyleSheet.create({
   
     width:width(60),
     paddingHorizontal:width(2.5),
-    paddingVertical:height(0.5)
+    paddingVertical:height(0.1)
     
 
   },
   topView:{
       width:width(60),
-      height:height(20),
+      height:height(23),
       justifyContent:'space-between',
-      paddingVertical:height(2)
+      paddingVertical:height(1),
+      paddingBottom:height(7)
   },
   name:{
       fontSize:15,

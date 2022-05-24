@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text, View,Image,FlatList,TouchableOpacity } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
 import { ScreenWrapper } from 'react-native-screen-wrapper';
@@ -10,10 +10,11 @@ import styles from './styles';
 import Item2 from '../../components/Item2'
 import { height, width } from 'react-native-dimension';
 import MaterialIcons2 from 'react-native-vector-icons/EvilIcons';
-import { setAddQuantity } from '../../Redux/Actions/Cart';
+import { removeItem, setAddQuantity } from '../../Redux/Actions/Cart';
 export default function Cart(props) {
  
   const cart = useSelector((state) => state.Cart.cart);
+  
   const total = useSelector((state) => state.Cart.totalprice);
   const dispatch = useDispatch();
   const logoutMethod = async () => {
@@ -41,6 +42,9 @@ export default function Cart(props) {
 
           }else
           dispatch(setAddQuantity({index:index,quantity:item.quantity-1}))
+        }}
+        removeItem={()=>{
+          dispatch(removeItem(item))
         }}
       />
     )
@@ -83,7 +87,7 @@ export default function Cart(props) {
       
       </View>
       
-      <TouchableOpacity  style={styles.loginBtn}>
+      <TouchableOpacity onPress={()=>props.navigation.navigate('Payment')}  style={styles.loginBtn}>
       <Text style={styles.btnText}>Proceed to Checkout</Text>
       
       </TouchableOpacity>

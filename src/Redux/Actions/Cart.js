@@ -5,10 +5,10 @@ export const addItem = payload => {
         payload: payload
     }
 };
-export const removeItem = () => {
+export const removeItem = (payload) => {
     return {
         type: REMOVEITEM,
-        payload: { uid: '' }
+        payload: payload
     }
 };
 export const setAddQuantity=(payload)=>{

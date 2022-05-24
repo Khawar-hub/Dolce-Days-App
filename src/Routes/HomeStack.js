@@ -20,6 +20,8 @@ export default function HomeStack() {
           <Stack.Screen name="Home" component={Home} />
           <Stack.Screen name="Detail" component={Detail} />
           <Stack.Screen name="ItemDetail" component={ItemDetail} />
+        
+
         </Stack.Navigator>
      
    

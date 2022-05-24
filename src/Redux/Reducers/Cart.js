@@ -7,11 +7,11 @@ const intialState = {
 const reducer = (state = intialState, action) => {
     switch (action.type) {
         case ADDITEM: {
-            let temp=[...state.cart]
-          
+              
             return {
                 ...state,
                 cart: action.payload,
+                totalprice:action.payload.price
                
               
             }
@@ -36,12 +36,14 @@ case REMOVEQUANTITY:{
 }
         
         case REMOVEITEM: {
-            return {
-                ...state,
-                user: cart,
-                
-            }
+            let temp=[...state.cart]
+           
+             
+          return{
+              ...state,
+              cart:temp.filter(item => item.id != action.payload.id)
         }
+    }
         default:
             return state
 

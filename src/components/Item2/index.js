@@ -3,7 +3,7 @@ import {ActivityIndicator,Image,View, Text, TouchableOpacity} from 'react-native
 import { height, width } from 'react-native-dimension';
 import AppColors from '../../utills/AppColors';
 import styles from './styles';
-import Ionic from 'react-native-vector-icons/Ionicons'
+import Ionic from 'react-native-vector-icons/Entypo'
 const Button = ({
   title,
   name,
@@ -15,7 +15,8 @@ const Button = ({
   containerStyle = {},
   textStyle = {},
   quantity,onPressAdd,
-  onPressRemove
+  onPressRemove,
+  removeItem
 }) => {
   //   const[quantity,setQuantity]=useState(0)
   //   const [total,setTotal]=useState(0)
@@ -35,9 +36,8 @@ const Button = ({
 
   // }
   return (
-    <TouchableOpacity
-      onPress={onPress}
-      activeOpacity={activeOpacity}
+    <View
+
       style={[styles.container, containerStyle]}>
       <View style={styles.imgView}>
          
@@ -50,6 +50,9 @@ const Button = ({
         
       </View>
       <View style={styles.infoView}>
+        <TouchableOpacity onPress={removeItem} style={{alignSelf:'flex-end'}}>
+          <Ionic name='cross' size={width(6)} />
+          </TouchableOpacity>
           <View style={styles.topView}>
               <Text style={styles.name}>{name}</Text>
               <Text style={[styles.name,{marginRight:width(5),fontSize:20}]}>AED {price}</Text>
@@ -71,7 +74,7 @@ const Button = ({
       </View>
 
       
-    </TouchableOpacity>
+    </View>
   );
 };
 

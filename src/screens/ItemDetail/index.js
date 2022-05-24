@@ -98,6 +98,7 @@ const[quantity,setQuantity]=useState(0)
       <TouchableOpacity onPress={()=>{
         
           dispatch(addItem([...cart,{...props.route?.params.data,quantity:1}]))
+          props.navigation.navigate('Cart')
         
       }}  style={styles.loginBtn}>
       <Text style={styles.btnText}>Add to Cart</Text>

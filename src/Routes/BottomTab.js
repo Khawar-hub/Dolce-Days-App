@@ -7,16 +7,18 @@ import Home from '../screens/Home'
 import MaterialIcons from 'react-native-vector-icons/SimpleLineIcons';
 import MaterialIcons2 from 'react-native-vector-icons/EvilIcons';
 import MaterialIcons3 from 'react-native-vector-icons/MaterialCommunityIcons';
-import { width } from 'react-native-dimension';
+import { height, width } from 'react-native-dimension';
 import Wallet from '../screens/Wallet'
 import { CardStyleInterpolators } from '@react-navigation/stack';
 import Cart from '../screens/Cart';
 import Profile from '../screens/Profile';
 import HomeStack from './HomeStack';
+import { useSelector } from 'react-redux';
+import CartStack from './CartStack';
 const Tab = createBottomTabNavigator();
 
 const  BottomTab=()=> {
-  
+  const cart=useSelector((state)=>state.Cart.cart)
     return (
       <Tab.Navigator
         initialRouteName="HomeScreen"
@@ -59,8 +61,8 @@ const  BottomTab=()=> {
           }}
         />
          <Tab.Screen
-          name="Cart"
-          component={Cart}
+          name="CartStack"
+          component={CartStack}
           options={{
             tabBarLabel: 'Cart',
             tabBarLabelStyle:{
@@ -68,9 +70,17 @@ const  BottomTab=()=> {
                fontFamily:'Quicksand-Bold',
               
             },
-            tabBarIcon: ({color, size}) => (
+            tabBarIcon: ({color, size}) => {
+               return(
+                 <>
+                 {cart.length>0?
+                 <View style={{zIndex:1,alignItems:'center',justifyContent:'center',position:'absolute',bottom:15,right:25,height:height(2),width:width(4),backgroundColor:AppColors.btnBackgroundColorDark,borderRadius:50}}>
+                  <Text style={{color:'#fff'}}>{cart.length}</Text>
+                 </View>:null}
               <MaterialIcons2 name="cart" color={color} size={width(8)} />
-            ),
+              </>
+               )
+          }
           }}
         />
          <Tab.Screen
