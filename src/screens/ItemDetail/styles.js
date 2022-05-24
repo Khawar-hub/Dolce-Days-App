@@ -24,13 +24,7 @@ const styles = StyleSheet.create({
    
    
   },
-  quantity:{
-     width:width(90),
-    flexDirection:'row',
-    justifyContent:'space-between',
-     alignSelf:'center',
-     alignItems:'center'
-  },
+ 
   incrementView:{
     marginTop:height(2),
     width:width(25),
@@ -116,6 +110,13 @@ const styles = StyleSheet.create({
       fontSize:20,
       fontFamily:'Quicksand-Bold',
   },
+  quantity:{
+    width:width(90),
+   flexDirection:'row',
+   justifyContent:'space-between',
+    alignSelf:'center',
+    alignItems:'center'
+ },
   loginBtn:{
     marginTop:height(2.5),
     flexDirection:"row",

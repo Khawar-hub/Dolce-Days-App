@@ -14,26 +14,26 @@ const Button = ({
   activeOpacity,
   containerStyle = {},
   textStyle = {},
-  
-number
+  quantity,onPressAdd,
+  onPressRemove
 }) => {
-    const[quantity,setQuantity]=useState(1)
-    const [total,setTotal]=useState(0)
-    const increment=()=>{
-        setQuantity(quantity+1)
+  //   const[quantity,setQuantity]=useState(0)
+  //   const [total,setTotal]=useState(0)
+  //   const increment=()=>{
+  //       setQuantity(quantity+1)
         
        
-         }
-  const decrement=()=>{
-    if(quantity==0){
+  //        }
+  // const decrement=()=>{
+  //   if(quantity==0){
 
-    }
-    else
-    setQuantity(quantity-1)
+  //   }
+  //   else
+  //   setQuantity(quantity-1)
     
 
 
-  }
+  // }
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -54,13 +54,13 @@ number
               <Text style={styles.name}>{name}</Text>
               <Text style={[styles.name,{marginRight:width(5),fontSize:20}]}>AED {price}</Text>
               <View style={styles.incrementView}>
-        <TouchableOpacity onPress={increment}  style={styles.increment1}>
+        <TouchableOpacity onPress={onPressAdd}  style={styles.increment1}>
           <Text style={styles.incrementText}>+</Text>
         </TouchableOpacity>
         <View style={{width:width(5),height:height(3.4),borderRightWidth:1,borderRightColor:AppColors.gray,borderLeftColor:AppColors.gray,borderLeftWidth:1,alignItems:"center",justifyContent:'center'}}>
           <Text>{quantity}</Text>
         </View>
-        <TouchableOpacity onPress={decrement}  style={styles.increment2}>
+        <TouchableOpacity onPress={onPressRemove}   style={styles.increment2}>
         <Text style={styles.incrementText}>-</Text>
         </TouchableOpacity>
 

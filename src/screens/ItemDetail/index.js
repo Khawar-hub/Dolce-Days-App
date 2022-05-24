@@ -12,6 +12,7 @@ import AppColors from '../../utills/AppColors';
 import styles from './styles';
 import MaterialIcons2 from 'react-native-vector-icons/EvilIcons';
 import { width } from 'react-native-dimension';
+import { addItem } from '../../Redux/Actions/Cart';
 export default function Home(props) {
     console.log(props.route?.params.data)
     const{name,price,des,img}=props.route?.params.data
@@ -24,7 +25,7 @@ export default function Home(props) {
 ]
 const[quantity,setQuantity]=useState(0)
     const [total,setTotal]=useState(0)
-  const user = useSelector((state) => state.Auth.user);
+  const cart = useSelector((state) => state.Cart.cart);
   const dispatch = useDispatch();
   const logoutMethod = async () => {
     showMessage({
@@ -75,22 +76,30 @@ const[quantity,setQuantity]=useState(0)
  
     
       </View>
-      <View style={styles.quantity}>
+      {/* <View style={styles.quantity}>
       <Text style={styles.label}>Quantity: {quantity}</Text>
       <View style={styles.incrementView}>
-        <TouchableOpacity onPress={increment} style={styles.increment1}>
+        <TouchableOpacity onPress={()=>{
+           dispatch(setAddQuantity({index:index,quantity:item.quantity+1}))
+        }} style={styles.increment1}>
           <Text style={styles.incrementText}>+</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={decrement} style={styles.increment2}>
+        <TouchableOpacity onPress={()=>{
+          dispatch(setAddQuantity({index:index,quantity:item.quantity-1}))
+        }} style={styles.increment2}>
         <Text style={styles.incrementText}>-</Text>
         </TouchableOpacity>
 
       </View>
       
       
-      </View>
+      </View> */}
       
-      <TouchableOpacity  style={styles.loginBtn}>
+      <TouchableOpacity onPress={()=>{
+        
+          dispatch(addItem([...cart,{...props.route?.params.data,quantity:1}]))
+        
+      }}  style={styles.loginBtn}>
       <Text style={styles.btnText}>Add to Cart</Text>
       <MaterialIcons2 style={{marginLeft:width(2)}} name="cart" color={'#fff'} size={width(8)} />
       </TouchableOpacity>

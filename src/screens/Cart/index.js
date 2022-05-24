@@ -10,9 +10,11 @@ import styles from './styles';
 import Item2 from '../../components/Item2'
 import { height, width } from 'react-native-dimension';
 import MaterialIcons2 from 'react-native-vector-icons/EvilIcons';
+import { setAddQuantity } from '../../Redux/Actions/Cart';
 export default function Cart(props) {
  
   const cart = useSelector((state) => state.Cart.cart);
+  const total = useSelector((state) => state.Cart.totalprice);
   const dispatch = useDispatch();
   const logoutMethod = async () => {
     showMessage({
@@ -29,7 +31,17 @@ export default function Cart(props) {
         price={item.price}
         des={item.des}
         img={item.img}
-         
+        quantity={item?.quantity}
+        onPressAdd={()=>{
+          console.log(index);
+          dispatch(setAddQuantity({index:index,quantity:item.quantity+1}))
+        }}
+        onPressRemove={()=>{
+          if(item.quantity==1){
+
+          }else
+          dispatch(setAddQuantity({index:index,quantity:item.quantity-1}))
+        }}
       />
     )
 }
@@ -45,15 +57,13 @@ export default function Cart(props) {
         />
         </View>
         <Text style={styles.textHeading}>Cart</Text>
-        <View style={styles.boxView}>
+        {/* <View style={styles.boxView}> */}
          <FlatList
-         data={[  {img:'',name:'item 2',price:"50.00",des:'lorem ipsum dolor sir amet, consecterur upsdo sjdh lorem ipsum dolor sir amet, consecterur upsdo sjdh lorem ipsum dolor sir amet, consecterur upsdo sjdh lorem ipsum dolor sir amet, consecterur upsdo sjdh lorem ipsum dolor sir amet, consecterur upsdo sjdh'},
-         {img:'',name:'item 3',price:"60.00",des:'lorem ipsum dolor sir amet, consecterur upsdo sjdh lorem ipsum dolor sir amet, consecterur upsdo sjdh lorem ipsum dolor sir amet, consecterur upsdo sjdh lorem ipsum dolor sir amet, consecterur upsdo sjdh lorem ipsum dolor sir amet, consecterur upsdo sjdh'}]}
+         data={cart}
          renderItem={renderItem}
          keyExtractor={(item, index) => index.toString()}
           showsVerticalScrollIndicator={false}
-         contentContainerStyle={{marginTop:-height(10)}}
-         style={{height:height(20)}}
+         
           ListEmptyComponent={()=>{
             return(
               <View>
@@ -62,13 +72,13 @@ export default function Cart(props) {
             )
           }}
          />
-        </View>
-       
+        {/* </View> */}
+       {/*  */}
         
       </View>
       <View style={styles.quantity}>
       <Text style={styles.label}>Total:</Text>
-     <Text style={styles.label}>AED 471.00</Text>
+     <Text style={styles.label}>AED {total}</Text>
       
       
       </View>
