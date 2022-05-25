@@ -123,7 +123,82 @@ inputcvc:{
   marginTop:height(1),
   paddingLeft:width(3),
   
-}
+},
+checkBoxRow:{
+  flexDirection:'row',
+  alignItems:"center",
+  width:width(90)
+},
+checkBoxText:{
+  marginTop:height(1),
+  marginLeft:width(1.5),
+  fontSize:13,
+  fontFamily:'Quicksand-SemiBold'
+},
+checkBoxText2:{
+ 
+  marginLeft:width(1.5),
+  fontSize:13,
+  fontFamily:'Quicksand-SemiBold'
+},
+text2:{
+  fontSize:15,
+  marginTop:height(3)
+},
+paymentView:{
+  marginTop:height(2),
+  width:width(90),
+  height:height(5),
+  borderRadius:10,
+  borderWidth:1,
+  borderColor:AppColors.btnBackgroundColorLight,
+  alignItems:'center',
+  paddingHorizontal:width(5),
+  flexDirection:"row"
+},
+checkbox:{
+  height:height(2),
+  width:width(4),
+  borderRadius:50,
+  borderWidth:1,
+  borderColor:AppColors.btnBackgroundColorLight,
+  alignItems:'center',
+  justifyContent:'center',
+
+},
+checkbox2:{
+  height:height(1),
+  width:width(2),
+  borderRadius:50,
+  backgroundColor:AppColors.btnBackgroundColorDark
+
+},
+infoView:{
+  width:width(90),
+  alignItems:'center',
+  justifyContent:'center',
+  marginTop:height(2)
+},
+info:{
+  fontSize:13
+},
+loginBtn:{
+  marginTop:height(2.5),
+  flexDirection:"row",
+  width:width(90),
+  height:height(5.4),
+  backgroundColor:AppColors.btnBackgroundColorDark,
+  borderRadius:10,
+  alignItems:'center',
+  justifyContent:'center',
+  alignSelf:'center',
+  marginBottom:height(1.3)
+},
+btnText:{
+  color:AppColors.white,
+  fontWeight:'600',
+  fontSize:17
+},
   
 });
 export default styles;

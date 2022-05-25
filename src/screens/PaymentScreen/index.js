@@ -7,11 +7,18 @@ import { logout } from '../../Redux/Actions/Auth';
 import styles from './styles';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import moment from 'moment'
+import CheckBox from 'react-native-check-box';
+import AppColors from '../../utills/AppColors';
+import { height } from 'react-native-dimension';
+import OrderModal from '../../components/OrderModal';
 export default function Cart(props) {
  
   const cart = useSelector((state) => state.Cart.cart);
   
   const total = useSelector((state) => state.Cart.totalprice);
+  const[checked,setIsChecked]=useState(false)
+  const[checked2,setIsChecked2]=useState(false)
+  const[show,setshow]=useState(false)
   const dispatch = useDispatch();
   const logoutMethod = async () => {
     showMessage({
@@ -101,8 +108,57 @@ export default function Cart(props) {
           </View>
          
         </View>
-        
+        <View style={styles.checkBoxRow}>
+        <CheckBox
+       uncheckedCheckBoxColor={AppColors.btnBackgroundColorLight}
+        isChecked={checked}
+        onClick={()=>{
+          if(checked){
+            setIsChecked(false)
+          }else{
+          setIsChecked(true)}
+        }}
+        checkedCheckBoxColor={AppColors.btnBackgroundColorLight}
+        style={{marginTop:height(1)}}
+        />
+        <Text style={styles.checkBoxText}>Save my credit card Information</Text>
         </View>
+        <Text style={styles.text2}>Or Pay with Wallet Balance</Text>
+        <View style={styles.paymentView}>
+          <TouchableOpacity onPress={()=>{
+            if(checked2){
+              setIsChecked2(false)
+            }else
+            setIsChecked2(true)
+
+            }} style={styles.checkbox}>
+              {checked2?
+            <View style={styles.checkbox2}>
+
+            </View>:null}
+
+          </TouchableOpacity>
+          <Text style={styles.checkBoxText2}>
+            Pay with Wallet Balance : AED 00.00
+          </Text>
+
+        </View>
+        <View style={styles.infoView}>
+        <Text style={styles.info}>
+          To add more credit to your wallet please contact your organiztion +971 xxx xxx xxx
+        </Text>
+        </View>
+
+        </View>
+          
+      <TouchableOpacity onPress={()=>setshow(true)}  style={styles.loginBtn}>
+      <Text style={styles.btnText}>Place Your Order</Text>
+      
+      </TouchableOpacity>
+      <OrderModal
+      isVisible={show}
+      hide={()=>setshow(false)}
+      />
     </ScreenWrapper>
   );
 }
