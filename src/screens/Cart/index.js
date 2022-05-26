@@ -10,7 +10,7 @@ import styles from './styles';
 import Item2 from '../../components/Item2'
 import { height, width } from 'react-native-dimension';
 import MaterialIcons2 from 'react-native-vector-icons/EvilIcons';
-import { removeItem, setAddQuantity } from '../../Redux/Actions/Cart';
+import { removeItem, setAddQuantity ,setRemoveQuantity} from '../../Redux/Actions/Cart';
 export default function Cart(props) {
  
   const cart = useSelector((state) => state.Cart.cart);
@@ -35,13 +35,13 @@ export default function Cart(props) {
         quantity={item?.quantity}
         onPressAdd={()=>{
           console.log(index);
-          dispatch(setAddQuantity({index:index,quantity:item.quantity+1}))
+          dispatch(setAddQuantity({index:index,price:item.price,quantity:item.quantity+1}))
         }}
         onPressRemove={()=>{
           if(item.quantity==1){
 
           }else
-          dispatch(setAddQuantity({index:index,quantity:item.quantity-1}))
+          dispatch(setRemoveQuantity({index:index,price:item.price,quantity:item.quantity-1}))
         }}
         removeItem={()=>{
           dispatch(removeItem(item))

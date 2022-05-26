@@ -55,7 +55,7 @@ const Button = ({
           </TouchableOpacity>
           <View style={styles.topView}>
               <Text style={styles.name}>{name}</Text>
-              <Text style={[styles.name,{marginRight:width(5),fontSize:20}]}>AED {price}</Text>
+              <Text style={[styles.name,{marginRight:width(5),fontSize:20,width:width(40)}]}>AED {price}</Text>
               <View style={styles.incrementView}>
         <TouchableOpacity onPress={onPressAdd}  style={styles.increment1}>
           <Text style={styles.incrementText}>+</Text>

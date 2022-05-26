@@ -1,6 +1,6 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Text, View,Platform} from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import AppColors from '../utills/AppColors';
 import styles from './styles';
 import Home from '../screens/Home'
@@ -41,9 +41,14 @@ const  BottomTab=()=> {
                fontFamily:'Quicksand-Bold',
               
             },
-            tabBarIcon: ({color, size}) => (
+            tabBarIcon: ({color, size}) => {
+              return(
+                <>
+              
               <MaterialIcons name="cup" color={color} size={width(6)} />
-            ),
+              </>
+              )
+            },
           }}
         />
          <Tab.Screen
