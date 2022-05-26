@@ -14,6 +14,7 @@ import { removeItem, setAddQuantity ,setRemoveQuantity} from '../../Redux/Action
 export default function Cart(props) {
  
   const cart = useSelector((state) => state.Cart.cart);
+ 
   
   const total = useSelector((state) => state.Cart.totalprice);
   const dispatch = useDispatch();
