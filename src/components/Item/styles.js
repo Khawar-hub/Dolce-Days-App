@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet,Platform } from 'react-native';
 import AppColors from '../../utills/AppColors';
 import { width, height } from 'react-native-dimension';
 
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
   
     width:width(60),
     paddingHorizontal:width(2.5),
-    paddingVertical:height(0.5)
+    paddingVertical:Platform.OS=="ios"?height(0.5):height(0)
     
 
   },
@@ -52,7 +52,7 @@ color:AppColors.gray
   },
   cartBtn:{
       height:height(3),
-      width:width(7),
+      width:Platform.OS=="ios"?width(7):width(6),
       borderRadius:6,
       backgroundColor:'#333',
       alignItems:"center",

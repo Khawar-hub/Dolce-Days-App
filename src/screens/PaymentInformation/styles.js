@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
   },
   textHeading:{
     fontWeight:'bold',
-     fontSize:height(2),
+     fontSize:height(3),
      color:'#000',
      
    },
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     borderRadius: height(14.5),
   },
   nameView:{
-    marginTop:height(2),
+    marginTop:height(7),
     alignItems:'center'
   },
   feild:{
@@ -88,6 +88,69 @@ const styles = StyleSheet.create({
     height:height(0.1),
     backgroundColor:'#e3e2e1',
     marginTop:height(3)
-  }
+  },
+  paymentView:{
+    marginTop:height(2),
+    width:width(86),
+    height:height(6),
+    borderRadius:10,
+    borderWidth:1,
+    borderColor:AppColors.btnBackgroundColorLight,
+    alignItems:'center',
+    paddingHorizontal:width(5),
+    flexDirection:"row"
+  },
+  checkbox:{
+    height:Platform.OS=='ios'?height(2):height(2.4),
+    width:width(4),
+    borderRadius:50,
+    borderWidth:1,
+    borderColor:AppColors.btnBackgroundColorLight,
+    alignItems:'center',
+    justifyContent:'center',
+  
+  },
+  checkbox2:{
+    height:Platform.OS=='ios'?height(1):height(1.2),
+    width:width(2),
+    borderRadius:50,
+    backgroundColor:AppColors.btnBackgroundColorDark
+  
+  },
+  checkBoxText2:{
+ 
+    marginLeft:width(1.5),
+    fontSize:14,
+    fontFamily:'Quicksand-SemiBold'
+  },
+  btnView:{
+    flexDirection:'row',
+    justifyContent:'space-between',
+    marginTop:height(1.5),
+    width:width(86)
+  },
+  btnSmall:{
+    height:height(5),
+    width:width(40),
+    borderRadius:10,
+    backgroundColor:AppColors.btnBackgroundColorLight,
+    alignItems:'center',
+    justifyContent:'center'
+  },
+  btnSmallText:{
+    fontFamily:"Quicksand-SemiBold",
+    color:AppColors.white,
+  },
+  infoView:{
+    width:width(90),
+    alignItems:'center',
+    justifyContent:'center',
+    marginTop:height(2),
+  
+  },
+  info:{
+    fontSize:13,
+    color:AppColors.btnBackgroundColorLight
+  },
 });
 export default styles;

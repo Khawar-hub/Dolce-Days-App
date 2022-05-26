@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet,Platform} from 'react-native';
 import { height, width } from 'react-native-dimension';
 import AppColors from '../../utills/AppColors';
 
@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
     backgroundColor:AppColors.gray
   },
  pickerView:{
-   height:height(31),
+   height:Platform.OS=='ios'?height(31):height(37),
    width:width(90),
    backgroundColor:AppColors.white,
    marginTop:height(8),

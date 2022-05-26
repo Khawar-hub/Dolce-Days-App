@@ -24,13 +24,13 @@ const styles = StyleSheet.create({
    
   },
   textHeading:{
-   fontWeight:'600',
+   fontWeight:'bold',
     fontSize:height(4),
     color:'#333333',
     marginTop:height(5)
   },
   textHeading2:{
-    fontWeight:'600',
+    fontWeight:'bold',
      fontSize:height(4),
      color:'#fff',
      position:'absolute'

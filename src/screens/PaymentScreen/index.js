@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Text, View,Image,FlatList,TouchableOpacity,TextInput } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
 import { ScreenWrapper } from 'react-native-screen-wrapper';
@@ -20,6 +20,9 @@ export default function Cart(props) {
   const[checked2,setIsChecked2]=useState(false)
   const[show,setshow]=useState(false)
   const dispatch = useDispatch();
+  const ref1=useRef()
+  const ref2=useRef()
+  const ref3=useRef()
   const logoutMethod = async () => {
     showMessage({
       message: 'Logged Out',
@@ -70,12 +73,20 @@ export default function Cart(props) {
           <TextInput
           style={styles.input}
           placeholder="Enter Cardholder name"
+          onSubmitEditing={() => ref1.current.focus()}
+              blurOnSubmit={false}
+              returnKeyLabel={'Next'}
+          
           />
         </View>
         <View>
           <Text style={styles.label}>Credit Cart Number</Text>
           <TextInput
           style={styles.input}
+          ref={ref1}
+          onSubmitEditing={() => ref2.current.focus()}
+          blurOnSubmit={false}
+          returnKeyLabel={'Next'}
           placeholder="Enter 16-digit Number"
           maxLength={16}
           keyboardType="number-pad"
@@ -99,6 +110,7 @@ export default function Cart(props) {
           <View>
           <Text style={styles.label}>Cvc </Text>
           <TextInput
+          ref={ref2}
           style={styles.inputcvc}
           placeholder="Enter Cvc"
           maxLength={3}

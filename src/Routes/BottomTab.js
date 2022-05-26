@@ -1,5 +1,5 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {Text, View} from 'react-native';
+import {Text, View,Platform} from 'react-native';
 import React from 'react';
 import AppColors from '../utills/AppColors';
 import styles from './styles';
@@ -15,6 +15,7 @@ import Profile from '../screens/Profile';
 import HomeStack from './HomeStack';
 import { useSelector } from 'react-redux';
 import CartStack from './CartStack';
+import ProfileStack from './ProfileStack';
 const Tab = createBottomTabNavigator();
 
 const  BottomTab=()=> {
@@ -74,7 +75,7 @@ const  BottomTab=()=> {
                return(
                  <>
                  {cart.length>0?
-                 <View style={{zIndex:1,alignItems:'center',justifyContent:'center',position:'absolute',bottom:15,right:25,height:height(2),width:width(4),backgroundColor:AppColors.btnBackgroundColorDark,borderRadius:50}}>
+                 <View style={{zIndex:1,alignItems:'center',justifyContent:'center',position:'absolute',bottom:15,right:25,height:Platform.OS=='ios'?height(2):height(2.5),width:width(4),backgroundColor:AppColors.btnBackgroundColorDark,borderRadius:50}}>
                   <Text style={{color:'#fff'}}>{cart.length}</Text>
                  </View>:null}
               <MaterialIcons2 name="cart" color={color} size={width(8)} />
@@ -85,7 +86,7 @@ const  BottomTab=()=> {
         />
          <Tab.Screen
           name="Profile"
-          component={Profile}
+          component={ProfileStack}
           options={{
             tabBarLabel: 'Profile',
             tabBarLabelStyle:{

@@ -54,13 +54,13 @@ const styles = StyleSheet.create({
     fontSize:20
   },
   textHeading:{
-   fontWeight:'600',
+   fontWeight:'bold',
     fontSize:height(4),
     color:'#333333',
     marginTop:height(5)
   },
   textHeading2:{
-    fontWeight:'600',
+    fontWeight:'bold',
      fontSize:height(4),
      color:'#fff',
      position:'absolute'
@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
   },
   btnText:{
     color:AppColors.white,
-    fontWeight:'600',
+    fontWeight:'bold',
     fontSize:17
   },
 });

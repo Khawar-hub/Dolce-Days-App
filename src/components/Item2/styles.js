@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform} from 'react-native';
 import AppColors from '../../utills/AppColors';
 import { width, height } from 'react-native-dimension';
 
@@ -32,16 +32,17 @@ const styles = StyleSheet.create({
   
     width:width(60),
     paddingHorizontal:width(2.5),
-    paddingVertical:height(0.1)
+  
+    
     
 
   },
   topView:{
-      width:width(60),
-      height:height(23),
+      width:width(20),
+      height:height(17),
       justifyContent:'space-between',
       paddingVertical:height(1),
-      paddingBottom:height(7)
+     
   },
   name:{
       fontSize:15,
@@ -61,19 +62,24 @@ color:AppColors.gray
       justifyContent:'center'
   },
   incrementView:{
-    marginTop:height(2),
+
     width:width(25),
-    height:height(3.5),
+    height:Platform.OS=='ios'?height(3.5):height(4),
     borderRadius:10,
     borderWidth:1,
     borderColor:AppColors.gray,
     flexDirection:'row',
-    justifyContent:'space-between'
+    justifyContent:'space-between',
+    alignItems:"center"
   },
   increment1:{
     width:width(10),
+    
+   
     alignItems:'center',
-    justifyContent:'center',
+  
+    
+    
   
  
 
@@ -81,13 +87,18 @@ color:AppColors.gray
   },
   increment2:{
     width:width(10),
+   
     alignItems:'center',
-    justifyContent:'center',
+   
 
 
   },
   incrementText:{
-    fontSize:20
+    fontSize:20,
+  
+  
+   
+
   },
 
 });

@@ -97,7 +97,7 @@ export default function Profile(props) {
 
 
               </TouchableOpacity>
-              <TouchableOpacity style={styles.feild}>
+              <TouchableOpacity  onPress={()=>props.navigation.navigate("MyWallet")} style={styles.feild}>
                 <Text style={styles.label}>My Wallet Balance</Text>
                 <Entypo
                 name='chevron-right'
@@ -106,7 +106,7 @@ export default function Profile(props) {
 
 
               </TouchableOpacity>
-              <TouchableOpacity style={styles.feild}>
+              <TouchableOpacity onPress={()=>props.navigation.navigate("PaymentInformation")} style={styles.feild}>
                 <Text style={styles.label}>Payment Information</Text>
                 <Entypo
                 name='chevron-right'
@@ -116,7 +116,7 @@ export default function Profile(props) {
 
               </TouchableOpacity>
               <View style={styles.divider}></View>
-              <TouchableOpacity style={styles.feild}>
+              <TouchableOpacity onPress={logoutMethod} style={styles.feild}>
                 <Text style={styles.label}>Logout</Text>
                 <Entypo
                 name='chevron-right'

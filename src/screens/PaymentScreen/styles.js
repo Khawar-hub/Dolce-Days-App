@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet,Platform } from 'react-native';
 import { height ,width} from 'react-native-dimension';
 import AppColors from '../../utills/AppColors';
 
@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
    
   },
   textHeading:{
-    fontWeight:'600',
+    fontWeight:'bold',
      fontSize:height(3),
      color:'#333333',
      marginTop:height(5)
@@ -157,7 +157,7 @@ paymentView:{
   flexDirection:"row"
 },
 checkbox:{
-  height:height(2),
+  height:Platform.OS=='ios'?height(2):height(2.4),
   width:width(4),
   borderRadius:50,
   borderWidth:1,
@@ -167,7 +167,7 @@ checkbox:{
 
 },
 checkbox2:{
-  height:height(1),
+  height:Platform.OS=='ios'?height(1):height(1.2),
   width:width(2),
   borderRadius:50,
   backgroundColor:AppColors.btnBackgroundColorDark
@@ -177,10 +177,12 @@ infoView:{
   width:width(90),
   alignItems:'center',
   justifyContent:'center',
-  marginTop:height(2)
+  marginTop:height(2),
+
 },
 info:{
-  fontSize:13
+  fontSize:13,
+  color:AppColors.btnBackgroundColorLight
 },
 loginBtn:{
   marginTop:height(2.5),
@@ -192,11 +194,11 @@ loginBtn:{
   alignItems:'center',
   justifyContent:'center',
   alignSelf:'center',
-  marginBottom:height(1.3)
+  marginBottom:height(1)
 },
 btnText:{
   color:AppColors.white,
-  fontWeight:'600',
+  fontWeight:'bold',
   fontSize:17
 },
   

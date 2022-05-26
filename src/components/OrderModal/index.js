@@ -1,12 +1,12 @@
 import React from 'react';
-import {ActivityIndicator, View,Text} from 'react-native';
+import {ActivityIndicator, View,Text,TouchableOpacity} from 'react-native';
 import Modal from 'react-native-modal';
 import {useSelector} from 'react-redux';
 import AppColors from '../../utills/AppColors';
 import styles from './styles'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { width } from 'react-native-dimension';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+
 export default function OrderModal({
 isVisible,
 hide,

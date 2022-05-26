@@ -5,8 +5,8 @@ import AppColors from '../utills/AppColors';
 const styles = StyleSheet.create({
   tabBarStyle: {
     height:height(9.7),
-    // paddingBottom: Platform.OS=='ios'? height(5.1):height(3),
-    paddingTop: Platform.OS=='ios'? height(1):height(0.7),
+    paddingBottom: Platform.OS=='ios'? height(3):height(2),
+    paddingTop: Platform.OS=='ios'? height(1):height(0),
     backgroundColor: AppColors.white,
     borderTopColor: AppColors.black,
   },

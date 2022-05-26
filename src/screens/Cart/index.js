@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View,Image,FlatList,TouchableOpacity } from 'react-native';
+import { Text, View,Image,FlatList,TouchableOpacity ,Platform} from 'react-native';
 import { showMessage } from 'react-native-flash-message';
 import { ScreenWrapper } from 'react-native-screen-wrapper';
 import { useDispatch, useSelector } from 'react-redux';
@@ -71,7 +71,7 @@ export default function Cart(props) {
           ListEmptyComponent={()=>{
             return(
               <View>
-                <Text style={{fontSize:20,fontWeight:'bold'}}>Cart Empty</Text>
+                <Text style={{fontSize:20,fontWeight:'bold',marginTop:height(10)}}>Cart Empty</Text>
                 </View>
             )
           }}

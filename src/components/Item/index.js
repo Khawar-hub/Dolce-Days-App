@@ -1,5 +1,5 @@
 import React from 'react';
-import {ActivityIndicator,Image,View, Text, TouchableOpacity} from 'react-native';
+import {ActivityIndicator,Image,View, Text, TouchableOpacity,Platform} from 'react-native';
 import { height, width } from 'react-native-dimension';
 import AppColors from '../../utills/AppColors';
 import styles from './styles';
@@ -40,7 +40,7 @@ const Button = ({
           <View style={[styles.topView,{marginTop:height(3.6)}]}>
               <Text style={styles.des}>{des}</Text>
               <TouchableOpacity onPress={cartPress} style={[styles.cartBtn,{marginRight:width(6)}]}>
-                 <Ionic size={20} name='cart-outline' color={'#fff'}/>
+                 <Ionic size={Platform.OS=='ios'?20:17} name='cart-outline' color={'#fff'}/>
               </TouchableOpacity>
 
           </View>

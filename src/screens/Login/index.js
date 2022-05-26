@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import {Text, View, Image,TextInput,TouchableWithoutFeedback,TouchableOpacity} from 'react-native';
 import {ScreenWrapper} from 'react-native-screen-wrapper';
 import {useDispatch, useSelector} from 'react-redux';
@@ -26,6 +26,7 @@ export default function Dashboard(props) {
   const Login=()=>{
       dispatch(login())
   }
+  const ref1=useRef()
   return (
 
     <ScreenWrapper  statusBarColor={'#f2f2f2'} barStyle="dark-content">
@@ -52,11 +53,15 @@ export default function Dashboard(props) {
           style={styles.inputStyle}
           placeholder="Username"
           placeholderTextColor={AppColors.btnBackgroundColorDark}
+          onSubmitEditing={() => ref1.current.focus()}
+          blurOnSubmit={false}
+          returnKeyLabel={'Next'}
           />
           <TextInput
           style={styles.inputStyle}
           placeholder="Password"
           placeholderTextColor={AppColors.btnBackgroundColorDark}
+          ref={ref1}
           />
           </View>
 

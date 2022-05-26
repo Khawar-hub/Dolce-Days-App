@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
    
   },
   textHeading:{
-    fontWeight:'600',
+    fontWeight:'bold',
      fontSize:height(4),
      color:'#333333',
      marginTop:height(5)
@@ -72,7 +72,7 @@ loginBtn:{
 },
 btnText:{
   color:AppColors.white,
-  fontWeight:'600',
+  fontWeight:'bold',
   fontSize:17
 },
 label:{
