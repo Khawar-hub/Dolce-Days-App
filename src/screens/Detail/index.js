@@ -23,18 +23,15 @@ export default function Home(props) {
 },[])
 const getItems=async()=>{
   
-  let temp=[...item]
-  products?.map(async(item)=>{
-    const res=await getData('Products',item)
+  let temp=[]
+  for(let i=0;i<products?.length;i++){
+    console.log(products[i])
+     const res=await getData('Products',products[i])
+     temp?.push(res?.data)
 
-  temp.push(res.data)
+  }
+  
 
-    
-   
-
-
-  })
-  console.log(temp)
   setItem(temp)
   dispatch(setLoaderVisible(false))
    
@@ -62,10 +59,10 @@ const getItems=async()=>{
         onPress={()=>props.navigation.navigate("ItemDetail",{
          data: item
         })}
-          name={item.name}
-          price={item.price}
-          des={item.description}
-          img={item.logo}
+          name={item?.name}
+          price={parseInt(item?.price)}
+          des={item?.description}
+          img={item?.logo}
            
         />
       )

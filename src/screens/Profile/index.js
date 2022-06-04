@@ -12,6 +12,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import Entypo from 'react-native-vector-icons/Entypo'
 import PickerModal from '../../components/PickerModal';
 import { width } from 'react-native-dimension';
+import auth from '@react-native-firebase/auth'
 export default function Profile(props) {
   const user = useSelector((state) => state.Auth.user);
   const dispatch = useDispatch();
@@ -23,6 +24,7 @@ export default function Profile(props) {
       type: 'danger',
     });
     dispatch(logout());
+    auth().signOut()
   };
   const[avatarSource,setAvatarSource]=useState(null)
   const imageFromCamera = () => {
