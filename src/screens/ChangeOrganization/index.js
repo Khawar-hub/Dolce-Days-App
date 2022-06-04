@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './styles';
 import {Text, View, Image,TouchableOpacity,TextInput,TouchableWithoutFeedback,StyleSheet} from 'react-native';
 import {ScreenWrapper} from 'react-native-screen-wrapper';
@@ -9,22 +9,29 @@ import {setLoaderVisible} from '../../Redux/Actions/Config';
 import AppColors from '../../utills/AppColors';
 import RNPickerSelect from 'react-native-picker-select';
 import { height } from 'react-native-dimension';
-
+import {getAllData} from '../../backend/Firebase'
 export default function ChangeOrganization(props) {
   const user = useSelector((state) => state.Auth.user);
   const dispatch = useDispatch();
-  const loginMethod = () => {
-    dispatch(setLoaderVisible(true));
-    setTimeout(() => {
-      showMessage({
-        message: 'Success',
-        description: 'Succfully logged In',
-        type: 'success',
-      });
-      dispatch(setLoaderVisible(false));
-      dispatch(login({userName: 'John Doe'}));
-    }, 1500);
-  };
+  const[organization,setOrganization]=useState([])
+  const[country,setCountry]=useState(null)
+  const[org,setOrg]=useState(null)
+  useEffect(()=>{
+      getOrganization()
+  },[])
+  const getOrganization=async()=>{
+    const response=await getAllData('Organizations')
+  
+    let temp=[]
+    response?.data?.map((item)=>{
+       temp.push({label:item.name,value:item.id})
+
+
+    })
+    setOrganization(temp)
+
+  }
+  
   const PickerIcon = () => {
     return (
       <View
@@ -69,8 +76,12 @@ export default function ChangeOrganization(props) {
             
               }}
              
-              onValueChange={val =>console.log(val)}
-              items={[{label:'xyz',value:'xyz'}]}
+              onValueChange={(value)=>setCountry(value)}
+              items={[{label:'Pakistan',value:'Pakistan'},
+              {label:'Austria',value:'Asutria'},
+              {label:'UAE',value:'UAE'},
+            
+            ]}
               style={{
                
                 ...pickerSelectStyles,
@@ -93,8 +104,8 @@ export default function ChangeOrganization(props) {
               
                 }}
               
-                onValueChange={val =>console.log(val)}
-                items={[{label:'xyz',value:'xyz'}]}
+                onValueChange={val =>setOrg(val)}
+                items={organization}
                 style={{
                 
                   ...pickerSelectStyles,
@@ -109,8 +120,8 @@ export default function ChangeOrganization(props) {
 
               <View style={styles.btnView}>
                 <TouchableOpacity onPress={()=>{
-                  alert('Changes Saved!')
-                  props.navigation.navigate('Login')
+                 
+                  props.navigation.navigate('Login',{organization:org})
                 }} style={styles.btnSmall}>
                    <Text style={styles.btnSmallText}>Save</Text>
                 </TouchableOpacity>
