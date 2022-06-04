@@ -24,7 +24,7 @@ const Button = ({
       <View style={styles.imgView}>
          
             <Image
-            source={require('../../assets/images/logo.png')}
+            source={{uri:img}}
             resizeMode="contain"
             style={styles.imageStyle}
             
