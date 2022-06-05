@@ -25,7 +25,7 @@ export default function Routes() {
   const handleLogin = async () => {
     let user = auth()?.currentUser;
     if (user) {
-     
+     console.log(user)
       const res = await getData('Users', user.uid);
       if (res.data) {
         dispatch(login(res.data))
@@ -33,7 +33,8 @@ export default function Routes() {
       }else{
         SplashScreen.hide();
       }
-  }}
+  }
+  SplashScreen.hide();}
  
    
   return (
