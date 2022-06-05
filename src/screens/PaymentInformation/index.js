@@ -149,7 +149,7 @@ export default function Profile(props) {
 
                     </TouchableOpacity>
                     <Text style={styles.checkBoxText2}>
-                        Pay with Wallet Balance : AED 00.00
+                        Pay with Wallet Balance : AED {user?.wallet}
                     </Text>
 
         </View>
@@ -167,7 +167,7 @@ export default function Profile(props) {
                    <Text style={styles.btnSmallText}>Save</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={()=>{
-                  props.navigation.navigate('Login')
+                  props.navigation.goBack()
                 }} style={styles.btnSmall}>
                 <Text style={styles.btnSmallText}>Cancel</Text>
                 </TouchableOpacity>

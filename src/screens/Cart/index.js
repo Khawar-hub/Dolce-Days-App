@@ -11,6 +11,7 @@ import Item2 from '../../components/Item2'
 import { height, width } from 'react-native-dimension';
 import MaterialIcons2 from 'react-native-vector-icons/EvilIcons';
 import { removeItem, setAddQuantity ,setRemoveQuantity} from '../../Redux/Actions/Cart';
+import SimpleToast from 'react-native-simple-toast';
 export default function Cart(props) {
  
   const cart = useSelector((state) => state.Cart.cart);
@@ -88,7 +89,15 @@ export default function Cart(props) {
       
       </View>
       
-      <TouchableOpacity onPress={()=>props.navigation.navigate('Payment')}  style={styles.loginBtn}>
+      <TouchableOpacity onPress={()=>{
+        if(cart.length==0){
+          SimpleToast.show("Cart is Empty",2)
+        }else{
+
+        
+        props.navigation.navigate('Payment')}
+        
+        }}  style={styles.loginBtn}>
       <Text style={styles.btnText}>Proceed to Checkout</Text>
       
       </TouchableOpacity>

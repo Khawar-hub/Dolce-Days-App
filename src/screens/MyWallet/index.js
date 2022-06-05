@@ -11,6 +11,7 @@ import RNPickerSelect from 'react-native-picker-select';
 import { height } from 'react-native-dimension';
 import Fontisto from 'react-native-vector-icons/Fontisto'
 export default function ChangeOrganization(props) {
+  console.log(props)
   const user = useSelector((state) => state.Auth.user);
   const dispatch = useDispatch();
   const loginMethod = () => {
@@ -63,9 +64,9 @@ export default function ChangeOrganization(props) {
             />
             <View style={styles.balanceView}>
             <Text style={styles.balanceText}>Wallet balance is:</Text>
-            <Text  style={styles.balanceText}>AED 471.00</Text>
+            <Text  style={styles.balanceText}>AED {user?.wallet}</Text>
             </View>
-            <TouchableOpacity   style={styles.loginBtn}>
+            <TouchableOpacity onPress={()=>props.navigation.goBack()}  style={styles.loginBtn}>
       <Text style={styles.btnText}>Take me Back</Text>
       
       </TouchableOpacity>

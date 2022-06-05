@@ -4,7 +4,29 @@ import storage from '@react-native-firebase/storage';
 import moment from 'moment';
 import {Alert,PermissionsAndroid, Platform,} from 'react-native';
 import Toast from 'react-native-simple-toast';
-
+export async function uploadImage(uri, path) {
+  try {
+    const response = await fetch(uri);
+    const blob = await response.blob();
+    const ref = storage().ref(path);
+    const task = ref.put(blob);
+    return new Promise((resolve, reject) => {
+      task.on(
+        'state_changed',
+        () => {},
+        (err) => {
+          reject(err);
+        },
+        async () => {
+          const url = await task.snapshot.ref.getDownloadURL();
+          resolve(url);
+        },
+      );
+    });
+  } catch (err) {
+    console.log('uploadImage error: ' + err.message);
+  }
+}
 // export async function saveData(collection, doc, jsonObject) {
 //   console.log(collection, doc, jsonObject);
 //   let success = false;

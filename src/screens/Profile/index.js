@@ -13,8 +13,12 @@ import Entypo from 'react-native-vector-icons/Entypo'
 import PickerModal from '../../components/PickerModal';
 import { width } from 'react-native-dimension';
 import auth from '@react-native-firebase/auth'
+import firestore from '@react-native-firebase/firestore'
+import {uploadImage,saveData} from '../../backend/Firebase'
+import { setLoaderVisible } from '../../Redux/Actions/Config';
 export default function Profile(props) {
   const user = useSelector((state) => state.Auth.user);
+  const[avatarSource,setAvatarSource]=useState(null)
   const dispatch = useDispatch();
   const [imagePickerModal, setImagePickerModal] = useState(false);
   const logoutMethod = async () => {
@@ -26,7 +30,23 @@ export default function Profile(props) {
     dispatch(logout());
     auth().signOut()
   };
-  const[avatarSource,setAvatarSource]=useState(null)
+  const uploadImages = async (uri, width, height) => {
+    
+  
+   setLoaderVisible(true)
+   
+    const _id = firestore().collection('Random').doc().id;
+    let coverPhoto = await uploadImage(
+       avatarSource.uri,
+      `images/Profilepics/${_id}`,
+    );
+    const uid = auth().currentUser.uid;
+    await saveData('Users', uid, {profilePic: coverPhoto});
+    dispatch(login({...user, profilePic: coverPhoto}));
+    setLoaderVisible(false)
+   
+  };
+
   const imageFromCamera = () => {
     ImagePicker.openCamera({
       width: 300,
@@ -40,7 +60,9 @@ export default function Profile(props) {
         name: response.path.split('/').pop(),
         type: response.mime ?? '',
     });
+  
     setImagePickerModal(false);
+    uploadImages()
     });
   };
   const imageFromGallery = () => {
@@ -56,9 +78,11 @@ export default function Profile(props) {
      name: response.path.split('/').pop(),
      type: response.mime ?? '',
     });
+   
       setImagePickerModal(false);
       
     });
+    uploadImages()
   };
   return (
     <ScreenWrapper  statusBarColor={'#f2f2f2'} >
@@ -87,8 +111,8 @@ export default function Profile(props) {
                 />
               </View>
               <View style={styles.nameView}>
-                  <Text style={styles.textHeading}>Company Name</Text>
-                  <Text style={styles.textHeading}>Office XXXX</Text>
+                  <Text style={styles.textHeading}>{user?.username}</Text>
+                  <Text style={styles.textHeading}>Office {user?.OfficeNumber}</Text>
               </View>
               <TouchableOpacity style={styles.feild}>
                 <Text style={styles.label}>My Orders</Text>

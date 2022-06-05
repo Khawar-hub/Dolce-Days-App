@@ -14,7 +14,7 @@ import OrderModal from '../../components/OrderModal';
 export default function Cart(props) {
  
   const cart = useSelector((state) => state.Cart.cart);
-  
+  const user=useSelector((state)=>state.Auth.user)
   const total = useSelector((state) => state.Cart.totalprice);
   const[checked,setIsChecked]=useState(false)
   const[checked2,setIsChecked2]=useState(false)
@@ -71,6 +71,7 @@ export default function Cart(props) {
         <View>
           <Text style={styles.label}>Cardholder Name</Text>
           <TextInput
+  
           style={styles.input}
           placeholder="Enter Cardholder name"
           onSubmitEditing={() => ref1.current.focus()}
@@ -151,7 +152,7 @@ export default function Cart(props) {
 
           </TouchableOpacity>
           <Text style={styles.checkBoxText2}>
-            Pay with Wallet Balance : AED 00.00
+            Pay with Wallet Balance : AED {user?.wallet}
           </Text>
 
         </View>

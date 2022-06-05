@@ -11,7 +11,7 @@ const reducer = (state = intialState, action) => {
             return {
                 ...state,
                 cart: action.payload,
-                totalprice:state.totalprice+action.payload[action.payload?.length-1].price
+                totalprice:state.totalprice+parseInt(action.payload[action.payload?.length-1].price)
                
               
             }
@@ -23,7 +23,7 @@ case ADDQUANTITY:{
     return{
         ...state,
         cart:temp,
-        totalprice:state.totalprice+action.payload.price
+        totalprice:state.totalprice+parseInt(action.payload.price)
     }
 }
 case REMOVEQUANTITY:{
@@ -34,7 +34,7 @@ case REMOVEQUANTITY:{
     return{
         ...state,
         cart:temp,
-        totalprice:state.totalprice-action.payload.price
+        totalprice:state.totalprice-parseInt(action.payload.price)
     }
 }
         
@@ -45,7 +45,7 @@ case REMOVEQUANTITY:{
           return{
               ...state,
               cart:temp.filter(item => item.id != action.payload.id),
-              totalprice:state.totalprice-action.payload.price
+              totalprice:state.totalprice-parseInt(action.payload.price)
             
         }
     }

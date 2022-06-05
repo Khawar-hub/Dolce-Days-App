@@ -96,7 +96,7 @@ const[quantity,setQuantity]=useState(0)
       </View> */}
       
       <TouchableOpacity onPress={()=>{
-        
+           
           dispatch(addItem([...cart,{...props.route?.params.data,quantity:1}]))
           props.navigation.navigate('Cart')
         
