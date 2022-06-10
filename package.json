@@ -48,7 +48,8 @@
     "react-native-vector-icons": "^9.1.0",
     "react-redux": "^7.2.2",
     "redux": "^4.0.5",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "tipsi-stripe": "^9.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

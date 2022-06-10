@@ -1105,6 +1105,23 @@ PODS:
     - React-Core
   - RNVectorIcons (9.1.0):
     - React-Core
+  - Stripe (21.13.0):
+    - Stripe/Stripe3DS2 (= 21.13.0)
+    - StripeApplePay (= 21.13.0)
+    - StripeCore (= 21.13.0)
+    - StripeUICore (= 21.13.0)
+  - Stripe/Stripe3DS2 (21.13.0):
+    - StripeApplePay (= 21.13.0)
+    - StripeCore (= 21.13.0)
+    - StripeUICore (= 21.13.0)
+  - StripeApplePay (21.13.0):
+    - StripeCore (= 21.13.0)
+  - StripeCore (21.13.0)
+  - StripeUICore (21.13.0):
+    - StripeCore (= 21.13.0)
+  - tipsi-stripe (9.2.0):
+    - React
+    - Stripe (>= 21.3.1)
   - Toast (4.0.0)
   - TOCropViewController (2.6.1)
   - Yoga (1.14.0)
@@ -1178,6 +1195,7 @@ DEPENDENCIES:
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
+  - tipsi-stripe (from `../node_modules/tipsi-stripe`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -1211,6 +1229,10 @@ SPEC REPOS:
     - nanopb
     - OpenSSL-Universal
     - PromisesObjC
+    - Stripe
+    - StripeApplePay
+    - StripeCore
+    - StripeUICore
     - Toast
     - TOCropViewController
     - YogaKit
@@ -1300,6 +1322,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-screens"
   RNVectorIcons:
     :path: "../node_modules/react-native-vector-icons"
+  tipsi-stripe:
+    :path: "../node_modules/tipsi-stripe"
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -1375,6 +1399,11 @@ SPEC CHECKSUMS:
   RNReanimated: c1b56d030d1616239861534d9adb531f8cffab68
   RNScreens: f7ad633b2e0190b77b6a7aab7f914fad6f198d8d
   RNVectorIcons: 7923e585eaeb139b9f4531d25a125a1500162a0b
+  Stripe: 1c350569f719f194d1a58a9564279d236d72c942
+  StripeApplePay: 2ec807acb7f95e948d430e50aa49b6b04475f1a5
+  StripeCore: a855a2f0d2d478afd9c2a3daccfbe6df6708fcc0
+  StripeUICore: a7e450146986fab95293b0164dd37dda7994982b
+  tipsi-stripe: a28177401206e5a469498f4a1e44634d66f79b2b
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
   TOCropViewController: edfd4f25713d56905ad1e0b9f5be3fbe0f59c863
   Yoga: 575c581c63e0d35c9a83f4b46d01d63abc1100ac

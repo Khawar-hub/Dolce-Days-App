@@ -6847,6 +6847,11 @@ through2@^2.0.1:
     readable-stream "~2.3.6"
     xtend "~4.0.1"
 
+tipsi-stripe@^9.2.0:
+  version "9.2.0"
+  resolved "https://registry.yarnpkg.com/tipsi-stripe/-/tipsi-stripe-9.2.0.tgz#e7d83c00e8223c4b2c3adb3656606ea6c5a36765"
+  integrity sha512-09/KlprrN4xkFFdmswEI2RddSFFu8rvdVSA/GPBXKTg4Pg6tPESDQCAnutW3E3E2uvNIT+HDW1ODCdVUmaPOdQ==
+
 tmpl@1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/tmpl/-/tmpl-1.0.5.tgz#8683e0b902bb9c20c4f726e3c0b69f36518c07cc"
