@@ -1233,6 +1233,11 @@
   resolved "https://registry.yarnpkg.com/@react-native-firebase/firestore/-/firestore-14.11.0.tgz#fac678ce4c6e8e86ab394067b6423cce7c435a88"
   integrity sha512-XG7+bLCjbuQtlren/DTTf7WvJ0gcbxp0DRNJ5/m0p8n0+x1fCGlCNpvzwDGQvljxF1JcE/qj22D44DLsJGM8ug==
 
+"@react-native-firebase/functions@^14.11.0":
+  version "14.11.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/functions/-/functions-14.11.0.tgz#5aed97d391a2f0b5ef1105a69ac037868d121f65"
+  integrity sha512-6zhlHSCYslRaJLvjTVoF7u2ttgCzbZGFTiA+FmDI0h4E1rAJfbULcjSzpYypDTdaczr2qb6LxXSGEM9mtk+1oA==
+
 "@react-native-firebase/storage@^14.11.0":
   version "14.11.0"
   resolved "https://registry.yarnpkg.com/@react-native-firebase/storage/-/storage-14.11.0.tgz#65d652b9696650f3c704d4f4144bb12673483acc"
@@ -6846,6 +6851,11 @@ through2@^2.0.1:
   dependencies:
     readable-stream "~2.3.6"
     xtend "~4.0.1"
+
+tipsi-stripe@^9.2.0:
+  version "9.2.0"
+  resolved "https://registry.yarnpkg.com/tipsi-stripe/-/tipsi-stripe-9.2.0.tgz#e7d83c00e8223c4b2c3adb3656606ea6c5a36765"
+  integrity sha512-09/KlprrN4xkFFdmswEI2RddSFFu8rvdVSA/GPBXKTg4Pg6tPESDQCAnutW3E3E2uvNIT+HDW1ODCdVUmaPOdQ==
 
 tmpl@1.0.5:
   version "1.0.5"

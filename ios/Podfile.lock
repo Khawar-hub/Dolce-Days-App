@@ -621,6 +621,9 @@ PODS:
   - Firebase/Firestore (8.15.0):
     - Firebase/CoreOnly
     - FirebaseFirestore (~> 8.15.0)
+  - Firebase/Functions (8.15.0):
+    - Firebase/CoreOnly
+    - FirebaseFunctions (~> 8.15.0)
   - Firebase/Storage (8.15.0):
     - Firebase/CoreOnly
     - FirebaseStorage (~> 8.15.0)
@@ -651,6 +654,9 @@ PODS:
     - "gRPC-C++ (~> 1.44.0)"
     - leveldb-library (~> 1.22)
     - nanopb (~> 2.30908.0)
+  - FirebaseFunctions (8.15.0):
+    - FirebaseCore (~> 8.0)
+    - GTMSessionFetcher/Core (~> 1.5)
   - FirebaseStorage (8.15.0):
     - FirebaseCore (~> 8.0)
     - GTMSessionFetcher/Core (~> 1.5)
@@ -1084,6 +1090,10 @@ PODS:
     - Firebase/Firestore (= 8.15.0)
     - React-Core
     - RNFBApp
+  - RNFBFunctions (14.11.0):
+    - Firebase/Functions (= 8.15.0)
+    - React-Core
+    - RNFBApp
   - RNFBStorage (14.11.0):
     - Firebase/Storage (= 8.15.0)
     - React-Core
@@ -1105,6 +1115,23 @@ PODS:
     - React-Core
   - RNVectorIcons (9.1.0):
     - React-Core
+  - Stripe (21.13.0):
+    - Stripe/Stripe3DS2 (= 21.13.0)
+    - StripeApplePay (= 21.13.0)
+    - StripeCore (= 21.13.0)
+    - StripeUICore (= 21.13.0)
+  - Stripe/Stripe3DS2 (21.13.0):
+    - StripeApplePay (= 21.13.0)
+    - StripeCore (= 21.13.0)
+    - StripeUICore (= 21.13.0)
+  - StripeApplePay (21.13.0):
+    - StripeCore (= 21.13.0)
+  - StripeCore (21.13.0)
+  - StripeUICore (21.13.0):
+    - StripeCore (= 21.13.0)
+  - tipsi-stripe (9.2.0):
+    - React
+    - Stripe (>= 21.3.1)
   - Toast (4.0.0)
   - TOCropViewController (2.6.1)
   - Yoga (1.14.0)
@@ -1172,12 +1199,14 @@ DEPENDENCIES:
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBAuth (from `../node_modules/@react-native-firebase/auth`)"
   - "RNFBFirestore (from `../node_modules/@react-native-firebase/firestore`)"
+  - "RNFBFunctions (from `../node_modules/@react-native-firebase/functions`)"
   - "RNFBStorage (from `../node_modules/@react-native-firebase/storage`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
+  - tipsi-stripe (from `../node_modules/tipsi-stripe`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -1191,6 +1220,7 @@ SPEC REPOS:
     - FirebaseCore
     - FirebaseCoreDiagnostics
     - FirebaseFirestore
+    - FirebaseFunctions
     - FirebaseStorage
     - Flipper
     - Flipper-DoubleConversion
@@ -1211,6 +1241,10 @@ SPEC REPOS:
     - nanopb
     - OpenSSL-Universal
     - PromisesObjC
+    - Stripe
+    - StripeApplePay
+    - StripeCore
+    - StripeUICore
     - Toast
     - TOCropViewController
     - YogaKit
@@ -1288,6 +1322,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-firebase/auth"
   RNFBFirestore:
     :path: "../node_modules/@react-native-firebase/firestore"
+  RNFBFunctions:
+    :path: "../node_modules/@react-native-firebase/functions"
   RNFBStorage:
     :path: "../node_modules/@react-native-firebase/storage"
   RNGestureHandler:
@@ -1300,6 +1336,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-screens"
   RNVectorIcons:
     :path: "../node_modules/react-native-vector-icons"
+  tipsi-stripe:
+    :path: "../node_modules/tipsi-stripe"
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -1316,6 +1354,7 @@ SPEC CHECKSUMS:
   FirebaseCore: 5743c5785c074a794d35f2fff7ecc254a91e08b1
   FirebaseCoreDiagnostics: 92e07a649aeb66352b319d43bdd2ee3942af84cb
   FirebaseFirestore: d7023faff8e1b4fd69d0adbcf18e65129bc03842
+  FirebaseFunctions: f9346c6afd2c7d84aabb331d70dd0c8309e1abe1
   FirebaseStorage: 8019af461599b2c3bc61c6a5dbdfa3d2de66a4d9
   Flipper: d3da1aa199aad94455ae725e9f3aa43f3ec17021
   Flipper-DoubleConversion: 38631e41ef4f9b12861c67d17cb5518d06badc41
@@ -1369,17 +1408,23 @@ SPEC CHECKSUMS:
   RNFBApp: b1b5a80a676a07dea17e778bda7c1e8b69b2f5ec
   RNFBAuth: e28fb7cd1b956086e68233b9ea19fb97c428f86b
   RNFBFirestore: 20b84abc6368c37297429f810705c203022d8110
+  RNFBFunctions: 558cae123f823432ba92a3f3f803e5056573b309
   RNFBStorage: b96c566326d070860a9470858c6cf54d825b666b
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
   RNImageCropPicker: 44e2807bc410741f35d4c45b6586aedfe3da39d2
   RNReanimated: c1b56d030d1616239861534d9adb531f8cffab68
   RNScreens: f7ad633b2e0190b77b6a7aab7f914fad6f198d8d
   RNVectorIcons: 7923e585eaeb139b9f4531d25a125a1500162a0b
+  Stripe: 1c350569f719f194d1a58a9564279d236d72c942
+  StripeApplePay: 2ec807acb7f95e948d430e50aa49b6b04475f1a5
+  StripeCore: a855a2f0d2d478afd9c2a3daccfbe6df6708fcc0
+  StripeUICore: a7e450146986fab95293b0164dd37dda7994982b
+  tipsi-stripe: a28177401206e5a469498f4a1e44634d66f79b2b
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
   TOCropViewController: edfd4f25713d56905ad1e0b9f5be3fbe0f59c863
   Yoga: 575c581c63e0d35c9a83f4b46d01d63abc1100ac
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 389843470bb2d9e990f695d7b50c19db8feaddb3
+PODFILE CHECKSUM: 6a439263938dbcccd3876ac92102f72888442303
 
 COCOAPODS: 1.11.2

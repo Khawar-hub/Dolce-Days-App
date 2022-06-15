@@ -12,6 +12,8 @@ target 'ReactNativeBoilerPlaceHermes' do
     :hermes_enabled => true
   )
 
+  pod 'tipsi-stripe', :path => '../node_modules/tipsi-stripe'
+
   target 'ReactNativeBoilerPlaceHermesTests' do
     inherit! :complete
     # Pods for testing

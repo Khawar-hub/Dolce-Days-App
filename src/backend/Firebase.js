@@ -887,4 +887,78 @@ export const getAllData = async (collection) => {
 
 //   }
 // }
+export const saveCard = async (body) => {
+  try {
+    console.log('====> entered api function');
+    const response = await fetch(
+      'https://us-central1-kutstop-1f3ea.cloudfunctions.net/saveCard',
 
+      {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+      },
+    );
+    const resultObject = await response.json();
+    return resultObject;
+  } catch (error) {
+    console.log(error.message);
+    return {
+      success: false,
+      message: error.message,
+    };
+  }
+};
+export const payWithStripeCard = async (body) => {
+  try {
+    console.log('====> entered api function');
+    const response = await fetch(
+      'https://us-central1-kutstop-1f3ea.cloudfunctions.net/payWithStripeCard',
+
+      {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+      },
+    );
+    const resultObject = await response.json();
+    return resultObject;
+  } catch (error) {
+    console.log(error.message);
+    return {
+      success: false,
+      message: error.message,
+    };
+  }
+};
+export const refundBookingPayment = async (body) => {
+  try {
+    console.log('====> entered api function');
+    const response = await fetch(
+      'https://us-central1-kutstop-1f3ea.cloudfunctions.net/refundBookingPayment',
+
+      {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+      },
+    );
+    const resultObject = await response.json();
+    return resultObject;
+  } catch (error) {
+    console.log(error.message);
+    return {
+      success: false,
+      message: error.message,
+    };
+  }
+};
