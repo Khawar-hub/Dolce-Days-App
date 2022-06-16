@@ -891,7 +891,7 @@ export const saveCard = async (body) => {
   try {
     console.log('====> entered api function');
     const response = await fetch(
-      'https://us-central1-kutstop-1f3ea.cloudfunctions.net/saveCard',
+      'https://us-central1-dolcedays-6a18d.cloudfunctions.net/saveCard',
 
       {
         method: 'POST',
@@ -905,7 +905,7 @@ export const saveCard = async (body) => {
     const resultObject = await response.json();
     return resultObject;
   } catch (error) {
-    console.log(error.message);
+    console.log(error);
     return {
       success: false,
       message: error.message,
@@ -916,7 +916,7 @@ export const payWithStripeCard = async (body) => {
   try {
     console.log('====> entered api function');
     const response = await fetch(
-      'https://us-central1-kutstop-1f3ea.cloudfunctions.net/payWithStripeCard',
+      'https://us-central1-dolcedays-6a18d.cloudfunctions.net/payWithStripeCard',
 
       {
         method: 'POST',

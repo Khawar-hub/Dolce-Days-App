@@ -125,7 +125,7 @@ export default function Profile(props) {
                     </TouchableOpacity>
                    
                     <Text style={styles.checkBoxText2}>
-                        Pay with Card Ending : XXX 222333
+                        Pay with Card Ending : ***{user?.card[0].last4}
                     </Text>
 
         </View>

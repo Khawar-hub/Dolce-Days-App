@@ -3,7 +3,7 @@ import { Text, View,Image,FlatList,TouchableOpacity,TextInput } from 'react-nati
 import { showMessage } from 'react-native-flash-message';
 import { ScreenWrapper } from 'react-native-screen-wrapper';
 import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../../Redux/Actions/Auth';
+import { login, logout } from '../../Redux/Actions/Auth';
 import styles from './styles';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import moment from 'moment'
@@ -11,11 +11,21 @@ import CheckBox from 'react-native-check-box';
 import AppColors from '../../utills/AppColors';
 import { height } from 'react-native-dimension';
 import OrderModal from '../../components/OrderModal';
+import SimpleToast from 'react-native-simple-toast';
+import stripe from 'tipsi-stripe'
+import { setLoaderVisible } from '../../Redux/Actions/Config';
+import { payWithStripeCard, saveCard } from '../../backend/Firebase';
+stripe.setOptions({
+  publishableKey: 'pk_test_51L8zqVJe12k0EsGWV7nZI4Bx4GWEOnuP0L0BDRCqlrEgfIf53uzA0leAa2tbYqoRq65LgsJGy6QVf0Pq34pUo3hx00SUs656iO',
+  merchantId: 'MERCHANT_ID', // Optional
+  androidPayMode: 'test', // Android only
+})
 export default function Cart(props) {
  
   const cart = useSelector((state) => state.Cart.cart);
   const user=useSelector((state)=>state.Auth.user)
   const total = useSelector((state) => state.Cart.totalprice);
+
   const[checked,setIsChecked]=useState(false)
   const[checked2,setIsChecked2]=useState(false)
   const[show,setshow]=useState(false)
@@ -44,16 +54,102 @@ export default function Cart(props) {
 
   const handleConfirm = (date) => {
     console.warn("A date has been picked: ", date);
-    if(moment(date).isSameOrAfter(new Date())){
-     alert('Invalid Expiry date')
-    }else{
-      setdate(date)
+    if(moment(date).isAfter(new Date())){
+      setExpiry(date)
       hideDatePicker();
+    }else{
+      alert('Invalid Expiry date')
+     
     }
   
   };
+const [cardName,setCardName]=useState(null)
+const[cardNumber,setCardNumber]=useState(null)
+const[expiry,setExpiry]=useState(null)
+const[cvv,setCvv]=useState(null)
+  const AddPayment = async () => {
+    if (!cardName) {
+      SimpleToast.show("Enter card name ")
+      return;
+    }
+    if (!cardNumber) {
+     SimpleToast.show('Enter 16 digit card number')
+      return;
+    }
+    if (cardNumber?.length < 16) {
+      SimpleToast.show('Please enter valid card number');
+      return;
+    }
+    if (!expiry) {
+      SimpleToast.show("Enter expiry date")
+      return;
+    }
+    if (!cvv) {
+      SimpleToast.show("Enter Cvv code")
+      return;
+    }
+    if (cvv?.length < 3) {
+      SimpleToast.show("Enter valid cvv code i-e xxx")
+      return;
+    }
+    dispatch(setLoaderVisible(true))
+    try {
+      const token = await stripe.createTokenWithCard({
+        name: cardName,
+        number: cardNumber,
+        expMonth: parseInt(moment(expiry).format('MM')),
+        expYear: parseInt(moment(expiry).format('YY')),
+        cvc: cvv,
+      });
+      if (token) {
+        console.log(token);
+        const res = await saveCard({
+          uid: user?.id,
+          email: user?.email,
+          token: token?.tokenId,
+        });
+        if (res?.success) {
+          let temp = [];
+          temp = user?.card ?? [];
+          temp.push(res?.card);
+          console.log(temp,'======');
+          SimpleToast.show(res.message)
+          dispatch(
+            login({
+              ...user,
+              card: temp,
+              stripeCustomer: res?.stripeCustomer,
+            }),
+          );
+          console.log(res?.stripeCustomer, 'customer');
+          await payWithStripeCard({
+            amount:total,
+            currency:'usd',
+            token:user?.card[0].id,
+            customer:user?.card[0].customer,
+            
 
- 
+          
+          
+          })
+          props.navigation.goBack();
+        
+        } else {
+          console.log(res?.message.Error);
+          SimpleToast.show("Invalid Card",2)
+        }
+        console.log(res);
+        dispatch(setLoaderVisible(false))
+      } else {
+        SimpleToast.show("Invalid Card",2)
+        dispatch(setLoaderVisible(false))
+      }
+    } catch (error) {
+      console.log(error);
+      SimpleToast.show("Invalid Card",2)
+      dispatch(setLoaderVisible(false))
+    }
+  };
   return (
     <ScreenWrapper statusBarColor={'#f2f2f2'} >
       <View style={styles.mainViewContainer}>
@@ -77,6 +173,7 @@ export default function Cart(props) {
           onSubmitEditing={() => ref1.current.focus()}
               blurOnSubmit={false}
               returnKeyLabel={'Next'}
+              onChangeText={(val)=>setCardName(val)}
           
           />
         </View>
@@ -91,6 +188,7 @@ export default function Cart(props) {
           placeholder="Enter 16-digit Number"
           maxLength={16}
           keyboardType="number-pad"
+          onChangeText={(val)=>setCardNumber(val)}
           />
         </View>
         <View style={{flexDirection:"row",justifyContent:'space-between'}}>
@@ -98,10 +196,10 @@ export default function Cart(props) {
           <Text style={styles.label}>Expiry Date </Text>
           <TouchableOpacity  style={styles.inputdate} onPress={showDatePicker}>
          
-          <Text style={{color:'silver'}}>{date==null?'MM/YY':moment(date).format('MM/YY')}</Text>
+          <Text style={{color:'silver'}}>{expiry==null?'MM/YY':moment(expiry).format('MM/YY')}</Text>
           </TouchableOpacity>
            <DateTimePickerModal
-           
+           minimumDate={new Date()}
         isVisible={isDatePickerVisible}
         mode="date"
         onConfirm={handleConfirm}
@@ -115,8 +213,9 @@ export default function Cart(props) {
           style={styles.inputcvc}
           placeholder="Enter Cvc"
           maxLength={3}
-          secureTextEntry={true}
+         
           keyboardType='number-pad'
+          onChangeText={(val)=>setCvv(val)}
           />
           </View>
          
@@ -164,7 +263,7 @@ export default function Cart(props) {
 
         </View>
           
-      <TouchableOpacity onPress={()=>setshow(true)}  style={styles.loginBtn}>
+      <TouchableOpacity onPress={AddPayment}  style={styles.loginBtn}>
       <Text style={styles.btnText}>Place Your Order</Text>
       
       </TouchableOpacity>

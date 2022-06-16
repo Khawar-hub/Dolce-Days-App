@@ -1,8 +1,9 @@
 const functions = require("firebase-functions");
 const admin=require("firebase-admin")
 const stripe = require('stripe')(
-    'pk_test_51L8zqVJe12k0EsGWV7nZI4Bx4GWEOnuP0L0BDRCqlrEgfIf53uzA0leAa2tbYqoRq65LgsJGy6QVf0Pq34pUo3hx00SUs656iO',
+    'sk_test_51L8zqVJe12k0EsGWAR4goMtFBqMJ1uhCJIEEjR65eHUWpAvPlSDa5gN1zwM6PpjsanR0juDE9PFQeDEYAhlv4fMt00qgquvrnB',
   );
+  admin.initializeApp()
 exports.saveCard = functions.https.onRequest(async (req, res) => {
     try {
       let customer;
