@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View,Image,TouchableOpacity } from 'react-native';
+import { Text, View,Image,TouchableOpacity, RefreshControl } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
 import { FlatList } from 'react-native-gesture-handler';
 import Item from '../../components/Item'
@@ -17,12 +17,14 @@ export default function Home(props) {
   console.log(props.route?.params)
   const{products}=props.route?.params
   const[item,setItem]=useState([])
+  const[isFetching,setIsFetching]=useState(false)
   useEffect(()=>{
     dispatch(setLoaderVisible(true))
       getItems()
 },[])
 const getItems=async()=>{
-  
+  console.log("jo")
+   setIsFetching(true)
   let temp=[]
   for(let i=0;i<products?.length;i++){
     console.log(products[i])
@@ -33,7 +35,9 @@ const getItems=async()=>{
   
 
   setItem(temp)
+  setIsFetching(false)
   dispatch(setLoaderVisible(false))
+  
    
  
 
@@ -68,7 +72,11 @@ const getItems=async()=>{
       )
   }
   return (
-    <ScreenWrapper  statusBarColor={'#f2f2f2'} >
+    <ScreenWrapper
+   
+    
+    
+    statusBarColor={'#f2f2f2'} >
       <View style={styles.mainViewContainer}>
       <View style={styles.imageView}>
         <Image
@@ -81,10 +89,16 @@ const getItems=async()=>{
         <Text style={styles.textHeading}>{props.route?.params.name}</Text>
         <View style={styles.boxView}>
          <FlatList
+         
          data={item}
          renderItem={renderItem}
          keyExtractor={(item, index) => index.toString()}
-          showsVerticalScrollIndicator={false}
+      
+          
+          refreshing={isFetching}
+          onRefresh={()=>{
+            console.log('called')
+          }}
          />
         </View>
       </View>

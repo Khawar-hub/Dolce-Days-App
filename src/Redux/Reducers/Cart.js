@@ -1,4 +1,4 @@
-import { ADDITEM, ADDQUANTITY, REMOVEITEM, REMOVEQUANTITY } from '../Types';
+import { ADDITEM, ADDQUANTITY, EMPTYCART, REMOVEITEM, REMOVEQUANTITY } from '../Types';
 const intialState = {
     cart: [],
     totalprice:0
@@ -49,6 +49,18 @@ case REMOVEQUANTITY:{
             
         }
     }
+    case EMPTYCART: {
+       
+       
+         
+      return{
+          ...state,
+          cart:[],
+          totalprice:0
+          
+        
+    }
+}
         default:
             return state
 

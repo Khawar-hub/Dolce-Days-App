@@ -15,13 +15,29 @@ import SimpleToast from 'react-native-simple-toast';
 import stripe from 'tipsi-stripe'
 import { setLoaderVisible } from '../../Redux/Actions/Config';
 import { payWithStripeCard, saveCard } from '../../backend/Firebase';
+import { emptyCart } from '../../Redux/Actions/Cart';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 stripe.setOptions({
   publishableKey: 'pk_test_51L8zqVJe12k0EsGWV7nZI4Bx4GWEOnuP0L0BDRCqlrEgfIf53uzA0leAa2tbYqoRq65LgsJGy6QVf0Pq34pUo3hx00SUs656iO',
   merchantId: 'MERCHANT_ID', // Optional
   androidPayMode: 'test', // Android only
 })
 export default function Cart(props) {
- 
+  useEffect(async()=>{
+   const check=JSON.parse(await AsyncStorage.getItem('check'))
+   const cardDetail=JSON.parse(await AsyncStorage.getItem('cardDetail'))
+   console.log(check,cardDetail)
+   if(check){
+    setIsChecked(true)
+    setCardName(cardDetail.cardName)
+    setCardNumber(cardDetail?.cardNumber)
+    setExpiry(cardDetail?.expiry)
+    setCvv(cardDetail?.cvv)
+   }else{
+    setIsChecked(false)
+   }
+
+  },[])
   const cart = useSelector((state) => state.Cart.cart);
   const user=useSelector((state)=>state.Auth.user)
   const total = useSelector((state) => state.Cart.totalprice);
@@ -132,6 +148,8 @@ const[cvv,setCvv]=useState(null)
           
           
           })
+          SimpleToast.show("Your Order has been placed",3)
+          dispatch(emptyCart())
           props.navigation.goBack();
         
         } else {
@@ -174,6 +192,7 @@ const[cvv,setCvv]=useState(null)
               blurOnSubmit={false}
               returnKeyLabel={'Next'}
               onChangeText={(val)=>setCardName(val)}
+              value={cardName}
           
           />
         </View>
@@ -189,6 +208,7 @@ const[cvv,setCvv]=useState(null)
           maxLength={16}
           keyboardType="number-pad"
           onChangeText={(val)=>setCardNumber(val)}
+          value={cardNumber}
           />
         </View>
         <View style={{flexDirection:"row",justifyContent:'space-between'}}>
@@ -213,7 +233,7 @@ const[cvv,setCvv]=useState(null)
           style={styles.inputcvc}
           placeholder="Enter Cvc"
           maxLength={3}
-         
+         value={cvv}
           keyboardType='number-pad'
           onChangeText={(val)=>setCvv(val)}
           />
@@ -224,11 +244,43 @@ const[cvv,setCvv]=useState(null)
         <CheckBox
        uncheckedCheckBoxColor={AppColors.btnBackgroundColorLight}
         isChecked={checked}
-        onClick={()=>{
+        onClick={async()=>{
           if(checked){
+            let flag=false
             setIsChecked(false)
+            await AsyncStorage.removeItem('cardDetail')
+            await AsyncStorage.setItem('check',JSON.stringify(flag))
           }else{
-          setIsChecked(true)}
+            if (!cardName) {
+              SimpleToast.show("Enter card name ")
+              return;
+            }
+            if (!cardNumber) {
+             SimpleToast.show('Enter 16 digit card number')
+              return;
+            }
+           
+            if (!expiry) {
+              SimpleToast.show("Enter expiry date")
+              return;
+            }
+            if (!cvv) {
+              SimpleToast.show("Enter Cvv code")
+              return;
+            }else{
+          setIsChecked(true)
+          let cardData={
+            cardName,
+            cardNumber,
+            expiry,
+            cvv
+
+          }
+          let flag=true
+          await AsyncStorage.setItem('check',JSON.stringify(flag))
+          await AsyncStorage.setItem('cardDetail',JSON.stringify(cardData))
+        
+        }}
         }}
         checkedCheckBoxColor={AppColors.btnBackgroundColorLight}
         style={{marginTop:height(1)}}

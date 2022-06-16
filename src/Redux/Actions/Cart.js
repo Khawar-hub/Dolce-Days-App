@@ -1,4 +1,4 @@
-import { ADDITEM,ADDQUANTITY,REMOVEITEM, REMOVEQUANTITY} from '../Types';
+import { ADDITEM,ADDQUANTITY,REMOVEITEM, REMOVEQUANTITY,EMPTYCART} from '../Types';
 export const addItem = payload => {
     return {
         type:ADDITEM,
@@ -20,6 +20,12 @@ export const setAddQuantity=(payload)=>{
 export const setRemoveQuantity=(payload)=>{
     return{
         type:REMOVEQUANTITY,
+        payload: payload
+    }
+}
+export const emptyCart=(payload)=>{
+    return{
+        type:EMPTYCART,
         payload: payload
     }
 }
