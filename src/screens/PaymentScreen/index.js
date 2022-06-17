@@ -9,13 +9,14 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import moment from 'moment'
 import CheckBox from 'react-native-check-box';
 import AppColors from '../../utills/AppColors';
-import { height } from 'react-native-dimension';
+import { height, width } from 'react-native-dimension';
 import OrderModal from '../../components/OrderModal';
 import SimpleToast from 'react-native-simple-toast';
 import stripe from 'tipsi-stripe'
 import { setLoaderVisible } from '../../Redux/Actions/Config';
-import { payWithStripeCard, saveCard } from '../../backend/Firebase';
+import { payWithStripeCard, saveCard, saveData } from '../../backend/Firebase';
 import { emptyCart } from '../../Redux/Actions/Cart';
+import firestore from '@react-native-firebase/firestore'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 stripe.setOptions({
   publishableKey: 'pk_test_51L8zqVJe12k0EsGWV7nZI4Bx4GWEOnuP0L0BDRCqlrEgfIf53uzA0leAa2tbYqoRq65LgsJGy6QVf0Pq34pUo3hx00SUs656iO',
@@ -148,7 +149,18 @@ const[cvv,setCvv]=useState(null)
           
           
           })
-          SimpleToast.show("Your Order has been placed",3)
+          const _id = firestore().collection('Random').doc().id;
+          await saveData('New Orders',_id,{
+            oid:_id,
+            CustomerId:user?.id,
+            CustomerEmailBy:user?.email,
+            CustomerName:user?.name,
+            products:cart,
+            ammount:total,
+            billingMethod:'VISA',
+            createdAt:moment().valueOf()
+          })
+          setshow(true)
           dispatch(emptyCart())
           props.navigation.goBack();
         
@@ -171,6 +183,11 @@ const[cvv,setCvv]=useState(null)
   return (
     <ScreenWrapper statusBarColor={'#f2f2f2'} >
       <View style={styles.mainViewContainer}>
+        {checked2?
+        <View style={{top:height(19),opacity:0.6,position:'absolute',zIndex:100,height:height(37),width:width(100),backgroundColor:AppColors.appBaseColor}}>
+
+        </View>:null}
+
       <View style={styles.imageView}>
         <Image
           source={require('../../assets/images/logo.png')}
@@ -303,7 +320,7 @@ const[cvv,setCvv]=useState(null)
 
           </TouchableOpacity>
           <Text style={styles.checkBoxText2}>
-            Pay with Wallet Balance : AED {user?.wallet}
+            Pay with Wallet Balance : AED {user?.stripeCustomer.balance}
           </Text>
 
         </View>

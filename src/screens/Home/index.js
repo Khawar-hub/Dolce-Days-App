@@ -51,11 +51,12 @@ export default function Home(props) {
         </View>
         <Text style={styles.textHeading}>Menu</Text>
         <View style={styles.boxView}>
-          {menu?.map((item)=>{
+          {menu?.map((item,index)=>{
             return(
 
            <>
-        <TouchableOpacity 
+        <TouchableOpacity
+        key={index} 
         onPress={()=>{
           props.navigation.navigate('Detail',item.name=="Coffee"?{
             name:'Coffee',products:item.products

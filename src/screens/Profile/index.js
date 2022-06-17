@@ -1,23 +1,25 @@
 import React, { useState } from 'react';
-import { Text, View ,Image,TouchableOpacity} from 'react-native';
+import { Text, View ,Image,TouchableOpacity, ActivityIndicator} from 'react-native';
 import { showMessage } from 'react-native-flash-message';
 import { ScreenWrapper } from 'react-native-screen-wrapper';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from '../../components/Button';
-import { logout } from '../../Redux/Actions/Auth';
+import { login, logout } from '../../Redux/Actions/Auth';
 import AppColors from '../../utills/AppColors';
 import styles from './styles';
 import ImagePicker from 'react-native-image-crop-picker';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import Entypo from 'react-native-vector-icons/Entypo'
 import PickerModal from '../../components/PickerModal';
-import { width } from 'react-native-dimension';
+import { height, width } from 'react-native-dimension';
 import auth from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
-import {uploadImage,saveData} from '../../backend/Firebase'
+import {uploadImage,saveData, getData} from '../../backend/Firebase'
 import { setLoaderVisible } from '../../Redux/Actions/Config';
+import SimpleToast from 'react-native-simple-toast';
 export default function Profile(props) {
   const user = useSelector((state) => state.Auth.user);
+
   const[avatarSource,setAvatarSource]=useState(null)
   const dispatch = useDispatch();
   const [imagePickerModal, setImagePickerModal] = useState(false);
@@ -30,20 +32,32 @@ export default function Profile(props) {
     dispatch(logout());
     auth().signOut()
   };
+  const[loader,setloader]=useState(false)
   const uploadImages = async (uri, width, height) => {
-    
+    console.log(avatarSource.uri)
   
-   setLoaderVisible(true)
+  setloader(true)
    
     const _id = firestore().collection('Random').doc().id;
+    console.log(_id,'1')
+    setTimeout(() => {
+      SimpleToast.show("High quality images may take some time to upload...",2)
+    }, 3000);
     let coverPhoto = await uploadImage(
        avatarSource.uri,
       `images/Profilepics/${_id}`,
     );
-    const uid = auth().currentUser.uid;
-    await saveData('Users', uid, {profilePic: coverPhoto});
-    dispatch(login({...user, profilePic: coverPhoto}));
-    setLoaderVisible(false)
+    
+    console.log(coverPhoto,'2')
+   
+    await saveData('Users', user.id, {profilePic: coverPhoto});
+    console.log('3')
+   const userData=await getData('Users',user?.id)
+   console.log(userData)
+   dispatch(login(userData.data))
+    SimpleToast.show("Profile photo Updated",2)
+    setAvatarSource(null)
+    setloader(false)
    
   };
 
@@ -62,8 +76,10 @@ export default function Profile(props) {
     });
   
     setImagePickerModal(false);
-    uploadImages()
+    
     });
+    
+
   };
   const imageFromGallery = () => {
     ImagePicker.openPicker({
@@ -82,7 +98,8 @@ export default function Profile(props) {
       setImagePickerModal(false);
       
     });
-    uploadImages()
+   
+ 
   };
   return (
     <ScreenWrapper  statusBarColor={'#f2f2f2'} >
@@ -96,9 +113,11 @@ export default function Profile(props) {
         />
         </View>
         <View style={styles.imageContainer}>
-                
+                {loader?
+                <ActivityIndicator size={16} color={AppColors.btnBackgroundColorDark}/>:
+                <>
                 <Image
-                  source={{uri: avatarSource?.uri??'https://firebasestorage.googleapis.com/v0/b/magicprogress-2cf22.appspot.com/o/AppImages%2Fuser.png?alt=media&token=8de75638-4dce-4723-9f0e-2f9777e11c0d'}}
+                  source={{uri: avatarSource?.uri?avatarSource?.uri:user?.profilePic?user?.profilePic:'https://firebasestorage.googleapis.com/v0/b/magicprogress-2cf22.appspot.com/o/AppImages%2Fuser.png?alt=media&token=8de75638-4dce-4723-9f0e-2f9777e11c0d'}}
                   style={styles.uploadedImage}
                   resizeMode="cover"
                 />
@@ -109,12 +128,18 @@ export default function Profile(props) {
                   color={"#fff"}
                   size={width(8.5)}
                 />
+                </>
+                }
               </View>
               <View style={styles.nameView}>
                   <Text style={styles.textHeading}>{user?.username}</Text>
                   <Text style={styles.textHeading}>Office {user?.OfficeNumber}</Text>
+                  {avatarSource?.uri?
+                  <TouchableOpacity disabled={loader} onPress={uploadImages} style={{alignItems:'center',justifyContent:'center',marginTop:8,height:height(3),width:width(20),borderRadius:7,backgroundColor:AppColors.btnBackgroundColorDark}}>
+                    <Text style={{fontFamily:'Quicksand-Bold',color:'#fff'}}>Upload</Text>
+                  </TouchableOpacity>:null}
               </View>
-              <TouchableOpacity style={styles.feild}>
+              <TouchableOpacity onPress={()=>props.navigation.navigate("MyOrders")}  style={styles.feild}>
                 <Text style={styles.label}>My Orders</Text>
                 <Entypo
                 name='chevron-right'

@@ -27,22 +27,22 @@ export async function uploadImage(uri, path) {
     console.log('uploadImage error: ' + err.message);
   }
 }
-// export async function saveData(collection, doc, jsonObject) {
-//   console.log(collection, doc, jsonObject);
-//   let success = false;
-//   await firestore()
-//     .collection(collection)
-//     .doc(doc)
-//     .set(jsonObject, {merge: true})
-//     .then(() => {
-//       success = true;
-//     })
-//     .catch(function (error) {
-//       console.error('Error writing document: ', error);
-//       success = false;
-//     });
-//   return success;
-// }
+export async function saveData(collection, doc, jsonObject) {
+  console.log(collection, doc, jsonObject);
+  let success = false;
+  await firestore()
+    .collection(collection)
+    .doc(doc)
+    .set(jsonObject, {merge: true})
+    .then(() => {
+      success = true;
+    })
+    .catch(function (error) {
+      console.error('Error writing document: ', error);
+      success = false;
+    });
+  return success;
+}
 // export async function addtoFavorite(collection, doc, eventid) {
 //   let success = false;
 //   await firestore()
