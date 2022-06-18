@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from 'react';
-import { Text, View,Image,TouchableOpacity } from 'react-native';
+import { Text, View,Image,TouchableOpacity, ImageBackground } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
 
 import { ScreenWrapper } from 'react-native-screen-wrapper';
@@ -52,6 +52,7 @@ export default function Home(props) {
         <Text style={styles.textHeading}>Menu</Text>
         <View style={styles.boxView}>
           {menu?.map((item,index)=>{
+            console.log(item)
             return(
 
            <>
@@ -64,8 +65,8 @@ export default function Home(props) {
           )
         }} 
         style={styles.box}>
-          <Image
-           source={require('../../assets/images/logo.png')}
+          <ImageBackground
+           source={{uri:item.logo}}
            resizeMode="cover"
            style={styles.boxImage}
           />

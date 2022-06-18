@@ -14,22 +14,31 @@ export default function ChangeOrganization(props) {
   const user = useSelector((state) => state.Auth.user);
   const dispatch = useDispatch();
   const[organization,setOrganization]=useState([])
-  const[country,setCountry]=useState(null)
+  const[country,setCountry]=useState([])
+  const[countryselect,setCountrySelect]=useState([])
   const[org,setOrg]=useState(null)
   useEffect(()=>{
       getOrganization()
   },[])
   const getOrganization=async()=>{
     const response=await getAllData('Organizations')
+    const responses=await getAllData('Country')
   
     let temp=[]
+    let temp2=[]
     response?.data?.map((item)=>{
        temp.push({label:item.name,value:item.id})
 
 
-    })
-    setOrganization(temp)
+    }) 
+    responses?.data?.map((item)=>{
+      temp2.push({label:item.name,value:item.id})
 
+
+   })
+   setCountry(temp2)
+    setOrganization(temp)
+    console.log(temp2)
   }
   
   const PickerIcon = () => {
@@ -76,12 +85,8 @@ export default function ChangeOrganization(props) {
             
               }}
              
-              onValueChange={(value)=>setCountry(value)}
-              items={[{label:'Pakistan',value:'Pakistan'},
-              {label:'Austria',value:'Asutria'},
-              {label:'UAE',value:'UAE'},
-            
-            ]}
+              onValueChange={(value)=>setCountrySelect(value)}
+              items={country}
               style={{
                
                 ...pickerSelectStyles,

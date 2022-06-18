@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
   imageStyle:{
     height:height(13),
     width:width(30),
-    tintColor:'#333333'
+  
    
    
   },
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
   imgView:{
   
    width:width(30),
-   backgroundColor:'silver'
+  
   },
   infoView:{
   

@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     alignItems:'center',
     justifyContent:'center',
     marginTop:height(6),
-    backgroundColor:'silver'
+  
  
    
   },
