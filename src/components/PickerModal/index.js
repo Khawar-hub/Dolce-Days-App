@@ -12,7 +12,7 @@ export default function PickerModal({
     onDone,
     onDone2
 }) {
-
+  const user=useSelector((state)=>state.Auth.user)
   return (
     <Modal onBackdropPress={hide} isVisible={isVisible} backdropOpacity={0.4}>
       <View style = {styles.container}>
@@ -21,11 +21,11 @@ export default function PickerModal({
           size={24}
           />
           <Text style={{fontFamily:'Quicksand-Bold',marginTop:height(0.8)}}>Upload your picture</Text>
-          <TouchableOpacity onPress={onDone}  style={styles.loginBtn}>
+          <TouchableOpacity onPress={onDone}  style={[styles.loginBtn,{backgroundColor:user?.color}]}>
       <Text style={styles.btnText}>Upload</Text>
       
       </TouchableOpacity>
-      <TouchableOpacity onPress={onDone2}  style={styles.loginBtn}>
+      <TouchableOpacity onPress={onDone2} style={[styles.loginBtn,{backgroundColor:user?.color}]}>
       <Text style={styles.btnText}>Take Picture</Text>
       
       </TouchableOpacity>

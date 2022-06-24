@@ -66,7 +66,7 @@ export default function ChangeOrganization(props) {
             <Text style={styles.balanceText}>Wallet balance is:</Text>
             <Text  style={styles.balanceText}>AED {user?.wallet}</Text>
             </View>
-            <TouchableOpacity onPress={()=>props.navigation.goBack()}  style={styles.loginBtn}>
+            <TouchableOpacity onPress={()=>props.navigation.goBack()}  style={[styles.loginBtn,{backgroundColor:user?.color}]}>
       <Text style={styles.btnText}>Take me Back</Text>
       
       </TouchableOpacity>

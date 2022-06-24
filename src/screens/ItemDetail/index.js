@@ -15,7 +15,7 @@ import { width } from 'react-native-dimension';
 import { addItem } from '../../Redux/Actions/Cart';
 export default function Home(props) {
     console.log(props.route?.params.data)
-    const{name,price,des,img}=props.route?.params.data
+    const{name,price,des,logo}=props.route?.params.data
     const item=[{img:'',name:'item 1',price:"00.00",des:'lorem ipsum dolor sir amet, consecterur upsdo sjdh'},
     {img:'',name:'item 2',price:"00.00",des:'lorem ipsum dolor sir amet, consecterur upsdo sjdh'},
     {img:'',name:'item 3',price:"00.00",des:'lorem ipsum dolor sir amet, consecterur upsdo sjdh'},
@@ -23,6 +23,7 @@ export default function Home(props) {
     {img:'',name:'item 5',price:"00.00",des:'lorem ipsum dolor sir amet, consecterur upsdo sjdh'},
     {img:'',name:'item 6',price:"00.00",des:'lorem ipsum dolor sir amet, consecterur upsdo sjdh'},
 ]
+const user=useSelector((state)=>state.Auth.user)
 const[quantity,setQuantity]=useState(0)
     const [total,setTotal]=useState(0)
   const cart = useSelector((state) => state.Cart.cart);
@@ -57,7 +58,7 @@ const[quantity,setQuantity]=useState(0)
       <View style={styles.mainViewContainer}>
       <View style={styles.imageView}>
         <Image
-          source={require('../../assets/images/logo.png')}
+          source={{uri:logo}}
           resizeMode="contain"
           style={styles.imageStyle} 
           
@@ -100,7 +101,7 @@ const[quantity,setQuantity]=useState(0)
           dispatch(addItem([...cart,{...props.route?.params.data,quantity:1}]))
           props.navigation.navigate('Cart')
         
-      }}  style={styles.loginBtn}>
+      }}  style={[styles.loginBtn,{backgroundColor:user?.color}]}>
       <Text style={styles.btnText}>Add to Cart</Text>
       <MaterialIcons2 style={{marginLeft:width(2)}} name="cart" color={'#fff'} size={width(8)} />
       </TouchableOpacity>

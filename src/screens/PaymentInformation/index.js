@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text, View ,Image,TouchableOpacity} from 'react-native';
 import { showMessage } from 'react-native-flash-message';
 import { ScreenWrapper } from 'react-native-screen-wrapper';
@@ -12,9 +12,24 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import Entypo from 'react-native-vector-icons/Entypo'
 import PickerModal from '../../components/PickerModal';
 import { width } from 'react-native-dimension';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 export default function Profile(props) {
   const user = useSelector((state) => state.Auth.user);
   const dispatch = useDispatch();
+  useEffect(()=>{
+      checkPayment()
+  },[])
+  const checkPayment=async()=>{
+    if(await AsyncStorage.getItem('payType')=='apple'){
+      setIsChecked(true)
+    }
+    else if(await AsyncStorage.getItem('payType')=='card'){
+     setIsChecked2(true)
+    }
+    else{
+      setIsChecked3(true)
+    }
+  }
   const [imagePickerModal, setImagePickerModal] = useState(false);
   const[checked,setIsChecked]=useState(false)
   const[checked2,setIsChecked2]=useState(false)
@@ -78,11 +93,12 @@ export default function Profile(props) {
                  
               </View>
               <View style={styles.paymentView}>
-                    <TouchableOpacity onPress={()=>{
+                    <TouchableOpacity onPress={async()=>{
                         if(checked){
                         setIsChecked(false)
                         }else{
                         setIsChecked(true)
+                        await AsyncStorage.setItem('payType','apple')
                         setIsChecked2(false)
                         setIsChecked3(false)
                         }
@@ -106,11 +122,12 @@ export default function Profile(props) {
         </View>
 
         <View style={styles.paymentView}>
-                    <TouchableOpacity onPress={()=>{
+                    <TouchableOpacity onPress={async()=>{
                         if(checked2){
                         setIsChecked2(false)
                         }else
                         {
+                          await AsyncStorage.setItem('payType','card')
                             setIsChecked(false)
                             setIsChecked2(true)
                             setIsChecked3(false)
@@ -125,13 +142,13 @@ export default function Profile(props) {
                     </TouchableOpacity>
                    
                     <Text style={styles.checkBoxText2}>
-                        Pay with Card Ending : ***{user?.card[0].last4}
+                        Pay with Card Ending : ***
                     </Text>
 
         </View>
 
         <View style={styles.paymentView}>
-                    <TouchableOpacity onPress={()=>{
+                    <TouchableOpacity onPress={async()=>{
                         if(checked3){
                         setIsChecked3(false)
                         }else
@@ -139,6 +156,7 @@ export default function Profile(props) {
                             setIsChecked(false)
                             setIsChecked2(false)
                             setIsChecked3(true)
+                             await AsyncStorage.setItem('payType','wallet')
                         }
 
                         }} style={styles.checkbox}>
@@ -162,13 +180,13 @@ export default function Profile(props) {
         <View style={styles.btnView}>
                 <TouchableOpacity onPress={()=>{
                   alert('Changes Saved!')
-                  props.navigation.navigate('Login')
-                }} style={styles.btnSmall}>
+                  props.navigation.goBack()
+                }} style={[styles.btnSmall,{backgroundColor:user?.color}]}>
                    <Text style={styles.btnSmallText}>Save</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={()=>{
                   props.navigation.goBack()
-                }} style={styles.btnSmall}>
+                }} style={[styles.btnSmall,{backgroundColor:user?.color}]}>
                 <Text style={styles.btnSmallText}>Cancel</Text>
                 </TouchableOpacity>
 

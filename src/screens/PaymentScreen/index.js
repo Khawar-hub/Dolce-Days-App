@@ -14,10 +14,11 @@ import OrderModal from '../../components/OrderModal';
 import SimpleToast from 'react-native-simple-toast';
 import stripe from 'tipsi-stripe'
 import { setLoaderVisible } from '../../Redux/Actions/Config';
-import { payWithStripeCard, saveCard, saveData } from '../../backend/Firebase';
+import { getData, payWithStripeCard, saveCard, saveData } from '../../backend/Firebase';
 import { emptyCart } from '../../Redux/Actions/Cart';
 import firestore from '@react-native-firebase/firestore'
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import auth from '@react-native-firebase/auth'
 stripe.setOptions({
   publishableKey: 'pk_test_51L8zqVJe12k0EsGWV7nZI4Bx4GWEOnuP0L0BDRCqlrEgfIf53uzA0leAa2tbYqoRq65LgsJGy6QVf0Pq34pUo3hx00SUs656iO',
   merchantId: 'MERCHANT_ID', // Optional
@@ -25,6 +26,9 @@ stripe.setOptions({
 })
 export default function Cart(props) {
   useEffect(async()=>{
+    if(await AsyncStorage.getItem('payType')=='wallet'){
+      setIsChecked2(true)
+    }
    const check=JSON.parse(await AsyncStorage.getItem('check'))
    const cardDetail=JSON.parse(await AsyncStorage.getItem('cardDetail'))
    console.log(check,cardDetail)
@@ -109,6 +113,12 @@ const[cvv,setCvv]=useState(null)
       SimpleToast.show("Enter valid cvv code i-e xxx")
       return;
     }
+    if(await AsyncStorage.getItem('payType')=='wallet'&&user?.wallet<total){
+  
+        SimpleToast.show('Insufficient balance in wallet',2)
+     
+       return;
+    }
     dispatch(setLoaderVisible(true))
     try {
       const token = await stripe.createTokenWithCard({
@@ -160,6 +170,17 @@ const[cvv,setCvv]=useState(null)
             billingMethod:'VISA',
             createdAt:moment().valueOf()
           })
+          if(await AsyncStorage.getItem('payType')=='wallet'){
+            const data=await getData('Users',auth().currentUser.uid)
+            if(data.success){
+              let newWallet=data?.data?.wallet-total
+              await saveData('Users',auth().currentUser.uid,{
+                wallet :newWallet
+              })
+              const newData=await getData("Users",auth().currentUser.uid)
+              dispatch(login(newData.data))
+            }
+          }
           setshow(true)
           dispatch(emptyCart())
           props.navigation.goBack();
@@ -183,10 +204,7 @@ const[cvv,setCvv]=useState(null)
   return (
     <ScreenWrapper statusBarColor={'#f2f2f2'} >
       <View style={styles.mainViewContainer}>
-        {checked2?
-        <View style={{top:height(19),opacity:0.6,position:'absolute',zIndex:100,height:height(37),width:width(100),backgroundColor:AppColors.appBaseColor}}>
-
-        </View>:null}
+       
 
       <View style={styles.imageView}>
         <Image
@@ -320,9 +338,9 @@ const[cvv,setCvv]=useState(null)
 
           </TouchableOpacity>
           <Text style={styles.checkBoxText2}>
-            Pay with Wallet Balance : AED {user?.stripeCustomer.balance}
+            Pay with Wallet Balance : AED {user?.wallet}
           </Text>
-
+        {console.log(user?.wallet)}
         </View>
         <View style={styles.infoView}>
         <Text style={styles.info}>
@@ -332,7 +350,7 @@ const[cvv,setCvv]=useState(null)
 
         </View>
           
-      <TouchableOpacity onPress={AddPayment}  style={styles.loginBtn}>
+      <TouchableOpacity onPress={AddPayment}  style={[styles.loginBtn,{backgroundColor:user?.color}]}>
       <Text style={styles.btnText}>Place Your Order</Text>
       
       </TouchableOpacity>

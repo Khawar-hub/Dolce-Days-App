@@ -12,6 +12,7 @@ import AppColors from '../../utills/AppColors';
 import styles from './styles';
 import SimpleToast from 'react-native-simple-toast';
 export default function Dashboard(props) {
+  
   const[email,setEmail]=useState(null)
   const[password,setPassword]=useState(null)
   const user = useSelector((state) => state.Auth.user);
@@ -43,6 +44,7 @@ export default function Dashboard(props) {
     }
   };
   const validateData = () => {
+    console.log(props?.route?.params,"000000000000")
     if(props.route?.params){
   
     if (!handleValidEmail(email) || email === '') {
@@ -74,22 +76,25 @@ export default function Dashboard(props) {
   const Login=async()=>{
 
     try{
+    
      dispatch(setLoaderVisible(true))
     const response=  await signIn(email,password)
  
     if(response.success){
         const res= await getData('Users',auth().currentUser.uid)
- 
+       if(res.data){
         
-        if(res.data.organization==props.route?.params?.organization){
-          dispatch(login(res.data))
+        if(res?.data?.organization==props.route?.params?.organization){
+          let obj={color:props.route?.params?.color}
+           console.log({...res.data,...obj},'dasdooasdiajidojaijdioasjdijaio')
+          dispatch(login({...res.data,...obj}))
           dispatch(setLoaderVisible(false))
         }
         else{
           SimpleToast.show("User not found in Selected Organization",2) 
           dispatch(setLoaderVisible(false))
       
-        }
+        }}
 
     }else{
       SimpleToast.show('No User Found',2)

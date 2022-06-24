@@ -15,7 +15,7 @@ import SimpleToast from 'react-native-simple-toast';
 export default function Cart(props) {
  
   const cart = useSelector((state) => state.Cart.cart);
- 
+  const user = useSelector((state) => state.Auth.user);
   
   const total = useSelector((state) => state.Cart.totalprice);
   const dispatch = useDispatch();
@@ -28,12 +28,13 @@ export default function Cart(props) {
     dispatch(logout());
   };
   const renderItem=({item,index})=>{
+    console.log(item)
     return(
       <Item2
         name={item.name}
         price={item.price}
         des={item.des}
-        img={item.img}
+        img={item.logo}
         quantity={item?.quantity}
         onPressAdd={()=>{
           console.log(index);
@@ -97,7 +98,7 @@ export default function Cart(props) {
         
         props.navigation.navigate('Payment')}
         
-        }}  style={styles.loginBtn}>
+        }}  style={[styles.loginBtn,{backgroundColor:user?.color}]}>
       <Text style={styles.btnText}>Proceed to Checkout</Text>
       
       </TouchableOpacity>

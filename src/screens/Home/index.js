@@ -13,6 +13,7 @@ import SimpleToast from 'react-native-simple-toast';
 import {setLoaderVisible} from '../../Redux/Actions/Config';
 export default function Home(props) {
   const user = useSelector((state) => state.Auth.user);
+  console.log(user)
   const[menu,setMenu]=useState([])
   useEffect(()=>{
      getMenu()
@@ -52,7 +53,7 @@ export default function Home(props) {
         <Text style={styles.textHeading}>Menu</Text>
         <View style={styles.boxView}>
           {menu?.map((item,index)=>{
-            console.log(item)
+          
             return(
 
            <>
@@ -60,8 +61,8 @@ export default function Home(props) {
         key={index} 
         onPress={()=>{
           props.navigation.navigate('Detail',item.name=="Coffee"?{
-            name:'Coffee',products:item.products
-          }:item.name=='Snacks'?{name:'Snacks',products:item.products}:item.name=="Tea"?{name:"Tea",products:item.products}:item.name=="Dessert"?{name:"Dessert",products:item.products}:{name:""}
+            name:'Coffee',products:item.FavoriteBars
+          }:item.name=='Snacks'?{name:'Snacks',products:item.FavoriteBars}:item.name=="Tea"?{name:"Tea",products:item.FavoriteBars}:item.name=="Dessert"?{name:"Dessert",products:item.FavoriteBars}:{name:""}
           )
         }} 
         style={styles.box}>

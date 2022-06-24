@@ -56,6 +56,7 @@ const getItems=async()=>{
  
       return(
         <Item
+     
         cartPress={()=>{
           dispatch(addItem([...cart,{...item,quantity:1}]))}
         }

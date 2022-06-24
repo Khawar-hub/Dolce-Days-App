@@ -14,12 +14,12 @@ const styles = StyleSheet.create({
     color: AppColors.green
   },
   imageView:{
-    backgroundColor:AppColors.btnBackgroundColorLight
+
   },
   imageStyle:{
     height:height(40),
     width:width(100),
-    tintColor:'#333333',
+
     
    
    
