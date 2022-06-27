@@ -27,8 +27,12 @@ const getItems=async()=>{
   let temp=[]
   for(let i=0;i<products?.length;i++){
     console.log(products[i])
+    
      const res=await getData('Products',products[i])
+     if(res.data)
+     {
      temp?.push(res?.data)
+     }
 
   }
   

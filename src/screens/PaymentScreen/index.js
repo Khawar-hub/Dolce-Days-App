@@ -178,11 +178,14 @@ const[cvv,setCvv]=useState(null)
                 wallet :newWallet
               })
               const newData=await getData("Users",auth().currentUser.uid)
-              dispatch(login(newData.data))
+
+            
+              dispatch(login({...newData.data,color:user?.color}))
             }
           }
           setshow(true)
           dispatch(emptyCart())
+          SimpleToast.show("Order Placed",3)
           props.navigation.goBack();
         
         } else {
