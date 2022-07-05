@@ -1,22 +1,46 @@
-import React, { useRef, useState } from 'react';
-import {Text, View, Image,TextInput,TouchableWithoutFeedback,TouchableOpacity} from 'react-native';
-import { height } from 'react-native-dimension';
+import React, { useRef, useState ,useEffect} from 'react';
+import {Text, View, Image,TextInput,TouchableWithoutFeedback,TouchableOpacity,StyleSheet} from 'react-native';
+import { height, width } from 'react-native-dimension';
 import auth from '@react-native-firebase/auth'
 import {ScreenWrapper} from 'react-native-screen-wrapper';
 import {useDispatch, useSelector} from 'react-redux';
-import { getData, signIn } from '../../backend/Firebase';
+import { getAllData, getData, signIn } from '../../backend/Firebase';
 import Button from '../../components/Button';
 import {login} from '../../Redux/Actions/Auth';
 import {setLoaderVisible} from '../../Redux/Actions/Config';
 import AppColors from '../../utills/AppColors';
 import styles from './styles';
 import SimpleToast from 'react-native-simple-toast';
+import RNPickerSelect from 'react-native-picker-select';
 export default function Dashboard(props) {
   
   const[email,setEmail]=useState(null)
   const[password,setPassword]=useState(null)
   const user = useSelector((state) => state.Auth.user);
   const dispatch = useDispatch();
+  const [organization, setOrganization] = useState([]);
+  const [country, setCountry] = useState([]);
+  const [color, setColor] = useState(null);
+  const [countryselect, setCountrySelect] = useState([]);
+  const [org, setOrg] = useState(null);
+  const[phone,setPhone]=useState(null)
+  const[emails,setEmails]=useState(null)
+  useEffect(() => {
+    getOrganization();
+  }, []);
+  const getOrganization = async () => {
+    const response = await getAllData('Organizations');
+    
+
+    let temp = [];
+    let temp2 = [];
+    response?.data?.map((item) => {
+      temp.push({label: item?.OrgName, value: item?.id, color: item?.OrgColor});
+    });
+   
+    setCountry(temp2);
+    setOrganization(temp);
+  };
   const loginMethod = () => {
     dispatch(setLoaderVisible(true));
     setTimeout(() => {
@@ -45,7 +69,7 @@ export default function Dashboard(props) {
   };
   const validateData = () => {
     console.log(props?.route?.params,"000000000000")
-    if(props.route?.params){
+ 
   
     if (!handleValidEmail(email) || email === '') {
       setValidation({
@@ -68,10 +92,8 @@ export default function Dashboard(props) {
       return;
     } else {
       Login();
-    }}
-    else{
-      SimpleToast.show("Please Select Organization",2)
     }
+   
   };
   const Login=async()=>{
 
@@ -81,17 +103,18 @@ export default function Dashboard(props) {
     const response=  await signIn(email,password)
  
     if(response.success){
-        const res= await getData('Users',auth().currentUser.uid)
-       if(res.data){
+      const resp= await getData('Organizations',org)
+       
+       if(resp.data){
         
-        if(res?.data?.organization==props.route?.params?.organization){
-          let obj={color:props.route?.params?.color}
-           console.log({...res.data,...obj},'dasdooasdiajidojaijdioasjdijaio')
-          dispatch(login({...res.data,...obj}))
+        if(resp?.data?.users?.includes(auth().currentUser?.uid)){
+          const res= await getData('Users',auth().currentUser?.uid)
+      
+          dispatch(login({...res.data,...resp.data}))
           dispatch(setLoaderVisible(false))
         }
         else{
-          SimpleToast.show("User not found in Selected Organization",2) 
+          SimpleToast.show("User not found",2) 
           dispatch(setLoaderVisible(false))
       
         }}
@@ -106,6 +129,23 @@ export default function Dashboard(props) {
     }
   }
   const ref1=useRef()
+  const PickerIcon = () => {
+    return (
+      <View
+        style={{
+          backgroundColor: 'transparent',
+          borderTopWidth: 8,
+          borderTopColor: 'gray',
+          borderRightWidth: 10,
+          borderRightColor: 'transparent',
+          borderLeftWidth: 10,
+          borderLeftColor: 'transparent',
+          width: 1,
+          height: 1,
+        }}
+      />
+    );
+  };
   return (
 
     <ScreenWrapper  statusBarColor={'#f2f2f2'} barStyle="dark-content">
@@ -171,9 +211,9 @@ export default function Dashboard(props) {
           </View>
 
           
-          <Text style={styles.phoneStyle}>+971 xxx xxx xxx</Text>
+          <Text style={styles.phoneStyle}>{phone?phone:"+971 xxx xxx xxx"}</Text>
                   
-          <Text style={styles.emailStyle}>email@organization.com</Text>
+          <Text style={styles.emailStyle}>{emails?emails:"email@organization.com"}</Text>
           
           <View style={styles.imageViewSmall}>
         <Image
@@ -184,7 +224,39 @@ export default function Dashboard(props) {
         />
         </View>
 
-        <Text onPress={()=>props.navigation.navigate('ChangeOrganization')} style={styles.changeorganizationStyle}>Change organization</Text>
+        <RNPickerSelect
+              useNativeAndroidPickerStyle={false}
+              placeholderTextColor="red"
+              placeholder={{
+                label: 'Get Your Access',
+                value: '',
+             
+                
+               
+              }}
+              
+              onValueChange={(val) => {}}
+              onDonePress={async(val) => {
+                const selectedOrg = organization?.find(
+                  (item) => item?.id == val,
+                );
+                console.log(selectedOrg);
+                const resp= await getData('Organizations',selectedOrg?.value)
+                setEmails(resp?.data?.OrgEmail)
+                setPhone(resp?.data?.OrgPhone)
+                setOrg(selectedOrg?.value);
+                setColor(selectedOrg?.color);
+              }}
+              items={organization}
+              style={{
+                ...pickerSelectStyles,
+                iconContainer: {
+                  top: 20,
+                  right: 16,
+                },
+              }}
+             
+            />
         <View style={styles.underline}></View>
         <View style={{marginTop:height(2)}}>
         {!validation.isValidEmail ? (
@@ -207,3 +279,31 @@ export default function Dashboard(props) {
     
   );
 }
+const pickerSelectStyles = StyleSheet.create({
+  inputIOS: {
+    marginVertical: 4,
+  
+    textAlign:'center',
+ 
+    width: '50%',
+  
+    backgroundColor:'transparent',
+    fontSize: 12,
+     alignSelf:'center',
+    // color: AppColors.btnBackgroundColorDark,
+    borderRadius: 2,
+
+
+  },
+  inputAndroid: {
+    marginVertical: 6,
+    paddingLeft: 15,
+    borderRadius: 7,
+    fontSize: 14,
+    color: '#000',
+    backgroundColor: '#F7F8FB',
+    height: 40,
+    width: '100%',
+  },
+ 
+});

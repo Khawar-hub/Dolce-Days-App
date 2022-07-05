@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
   imageStyle:{
     height:height(9),
     width:width(50),
-    tintColor:'#333333'
+
    
    
   },
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
   
   },
   underline:{
-    width:width(36),
+    width:width(25),
     height:1,
     backgroundColor:AppColors.gray
   }

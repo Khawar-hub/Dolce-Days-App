@@ -103,8 +103,7 @@ export default function ChangeOrganization(props) {
             <RNPickerSelect
               useNativeAndroidPickerStyle={false}
               placeholder={{
-                label: 'Select your Organization',
-                value: '',
+                
               }}
               onValueChange={(val) => {}}
               onDonePress={(val) => {
@@ -115,6 +114,7 @@ export default function ChangeOrganization(props) {
                 setOrg(selectedOrg?.value);
                 setColor(selectedOrg?.color);
               }}
+              
               items={organization}
               style={{
                 ...pickerSelectStyles,
@@ -168,7 +168,7 @@ const pickerSelectStyles = StyleSheet.create({
     backgroundColor: AppColors.white,
     fontSize: 12,
 
-    color: AppColors.btnBackgroundColorDark,
+    color:  '#00000029',
     borderRadius: 2,
     marginTop: height(1),
     borderBottomWidth: 0.6,
