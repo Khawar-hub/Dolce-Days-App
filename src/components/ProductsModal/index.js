@@ -17,10 +17,10 @@ item
         return(
           <Item
             check={false}
-            name={item?.name}
-            price={parseInt(item?.price)}
-            des={item?.description}
-            img={item?.logo}
+            name={item?.ProdName}
+            price={parseInt(item?.ProdPrice)}
+            des={item?.ProdDescription}
+            img={item?.ProdLogo}
              
           />
         )

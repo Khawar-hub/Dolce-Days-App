@@ -163,11 +163,14 @@ const[cvv,setCvv]=useState(null)
           await saveData('New Orders',_id,{
             oid:_id,
             CustomerId:user?.id,
-            CustomerEmailBy:user?.email,
-            CustomerName:user?.name,
+            Organization:user?.OrgName,
+            OrganizationId:user?.OrgId,
+            CustomerEmailBy:user?.UserEmail,
+            CustomerName:user?.UserName,
             products:cart,
             ammount:total,
             billingMethod:'VISA',
+            status:'Unpaid',
             createdAt:moment().valueOf()
           })
           if(await AsyncStorage.getItem('payType')=='wallet'){
