@@ -31,20 +31,20 @@ export default function Cart(props) {
     console.log(item)
     return(
       <Item2
-        name={item.name}
-        price={item.price}
-        des={item.des}
-        img={item.logo}
+        name={item.ProdName}
+        price={item.ProdPrice}
+        des={item.ProdDescription}
+        img={item.ProdLogo}
         quantity={item?.quantity}
         onPressAdd={()=>{
           console.log(index);
-          dispatch(setAddQuantity({index:index,price:item.price,quantity:item.quantity+1}))
+          dispatch(setAddQuantity({index:index,price:item.ProdPrice,quantity:item.quantity+1}))
         }}
         onPressRemove={()=>{
           if(item.quantity==1){
 
           }else
-          dispatch(setRemoveQuantity({index:index,price:item.price,quantity:item.quantity-1}))
+          dispatch(setRemoveQuantity({index:index,price:item.ProdPrice,quantity:item.quantity-1}))
         }}
         removeItem={()=>{
           dispatch(removeItem(item))
@@ -57,8 +57,8 @@ export default function Cart(props) {
       <View style={styles.mainViewContainer}>
       <View style={styles.imageView}>
         <Image
-          source={require('../../assets/images/logo.png')}
-          resizeMode="contain"
+          source={{uri:user?.OrgLogo}}
+          resizeMode="cover"
           style={styles.imageStyle} 
           
         />
@@ -98,7 +98,7 @@ export default function Cart(props) {
         
         props.navigation.navigate('Payment')}
         
-        }}  style={[styles.loginBtn,{backgroundColor:user?.color}]}>
+        }}  style={[styles.loginBtn,{backgroundColor:user?.OrgColor}]}>
       <Text style={styles.btnText}>Proceed to Checkout</Text>
       
       </TouchableOpacity>

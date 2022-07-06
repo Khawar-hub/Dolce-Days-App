@@ -103,21 +103,16 @@ export default function Dashboard(props) {
     const response=  await signIn(email,password)
  
     if(response.success){
-      const resp= await getData('Organizations',org)
+      const res= await getData('Users',auth().currentUser?.uid)
+      
+      const resp= await getData('Organizations',res.data?.OrgId)
        
        if(resp.data){
         
-        if(resp?.data?.users?.includes(auth().currentUser?.uid)){
-          const res= await getData('Users',auth().currentUser?.uid)
       
           dispatch(login({...res.data,...resp.data}))
           dispatch(setLoaderVisible(false))
-        }
-        else{
-          SimpleToast.show("User not found",2) 
-          dispatch(setLoaderVisible(false))
-      
-        }}
+       }
 
     }else{
       SimpleToast.show('No User Found',2)

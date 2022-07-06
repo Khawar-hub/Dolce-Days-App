@@ -211,7 +211,7 @@ const[cvv,setCvv]=useState(null)
 
       <View style={styles.imageView}>
         <Image
-          source={require('../../assets/images/logo.png')}
+          source={{uri:user?.OrgLogo}}
           resizeMode="contain"
           style={styles.imageStyle} 
           
@@ -226,9 +226,7 @@ const[cvv,setCvv]=useState(null)
   
           style={styles.input}
           placeholder="Enter Cardholder name"
-          onSubmitEditing={() => ref1.current.focus()}
-              blurOnSubmit={false}
-              returnKeyLabel={'Next'}
+         
               onChangeText={(val)=>setCardName(val)}
               value={cardName}
           
@@ -244,7 +242,7 @@ const[cvv,setCvv]=useState(null)
           returnKeyLabel={'Next'}
           placeholder="Enter 16-digit Number"
           maxLength={16}
-          keyboardType="number-pad"
+          keyboardType="numbers-and-punctuation"
           onChangeText={(val)=>setCardNumber(val)}
           value={cardNumber}
           />
@@ -272,7 +270,7 @@ const[cvv,setCvv]=useState(null)
           placeholder="Enter Cvc"
           maxLength={3}
          value={cvv}
-          keyboardType='number-pad'
+         keyboardType="numbers-and-punctuation"
           onChangeText={(val)=>setCvv(val)}
           />
           </View>
@@ -341,7 +339,7 @@ const[cvv,setCvv]=useState(null)
 
           </TouchableOpacity>
           <Text style={styles.checkBoxText2}>
-            Pay with Wallet Balance : AED {user?.wallet}
+            Pay with Wallet Balance : AED {user?.UserWallet}
           </Text>
         {console.log(user?.wallet)}
         </View>
@@ -353,7 +351,7 @@ const[cvv,setCvv]=useState(null)
 
         </View>
           
-      <TouchableOpacity onPress={AddPayment}  style={[styles.loginBtn,{backgroundColor:user?.color}]}>
+      <TouchableOpacity onPress={AddPayment}  style={[styles.loginBtn,{backgroundColor:user?.OrgColor}]}>
       <Text style={styles.btnText}>Place Your Order</Text>
       
       </TouchableOpacity>

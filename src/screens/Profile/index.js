@@ -33,8 +33,8 @@ export default function Profile(props) {
     auth().signOut()
   };
   const[loader,setloader]=useState(false)
-  const uploadImages = async (uri, width, height) => {
-    console.log(avatarSource.uri)
+  const uploadImages = async (path) => {
+    
   
   setloader(true)
    
@@ -44,7 +44,7 @@ export default function Profile(props) {
       SimpleToast.show("High quality images may take some time to upload...",2)
     }, 3000);
     let coverPhoto = await uploadImage(
-       avatarSource.uri,
+       path,
       `images/Profilepics/${_id}`,
     );
     
@@ -54,7 +54,11 @@ export default function Profile(props) {
     console.log('3')
    const userData=await getData('Users',user?.id)
    console.log(userData)
-   dispatch(login(userData.data))
+   let obj={
+    ...user,
+    ...userData.data
+   }
+   dispatch(login(obj))
     SimpleToast.show("Profile photo Updated",2)
     setAvatarSource(null)
     setloader(false)
@@ -74,6 +78,11 @@ export default function Profile(props) {
         name: response.path.split('/').pop(),
         type: response.mime ?? '',
     });
+
+      if(response){
+        uploadImages(response.path)
+      }
+    
   
     setImagePickerModal(false);
     
@@ -94,7 +103,12 @@ export default function Profile(props) {
      name: response.path.split('/').pop(),
      type: response.mime ?? '',
     });
-   
+
+      if(response){
+        uploadImages(response.path)
+      }
+    
+    
       setImagePickerModal(false);
       
     });
@@ -106,8 +120,8 @@ export default function Profile(props) {
       <View style={styles.mainViewContainer}>
       <View style={styles.imageView}>
         <Image
-          source={require('../../assets/images/logo.png')}
-          resizeMode="contain"
+          source={{uri:user?.OrgLogo}}
+          resizeMode="cover"
           style={styles.imageStyle} 
           
         />
@@ -132,12 +146,9 @@ export default function Profile(props) {
                 }
               </View>
               <View style={styles.nameView}>
-                  <Text style={styles.textHeading}>{user?.username}</Text>
-                  <Text style={styles.textHeading}>Office {user?.OfficeNumber}</Text>
-                  {avatarSource?.uri?
-                  <TouchableOpacity disabled={loader} onPress={uploadImages} style={{alignItems:'center',justifyContent:'center',marginTop:8,height:height(3),width:width(20),borderRadius:7,backgroundColor:AppColors.btnBackgroundColorDark}}>
-                    <Text style={{fontFamily:'Quicksand-Bold',color:'#fff'}}>Upload</Text>
-                  </TouchableOpacity>:null}
+                  <Text style={styles.textHeading}>{user?.UserUsername}</Text>
+                  <Text style={styles.textHeading}>Office {user?.UserOfficeNumber}</Text>
+               
               </View>
               <TouchableOpacity onPress={()=>props.navigation.navigate("MyOrders")}  style={styles.feild}>
                 <Text style={styles.label}>My Orders</Text>

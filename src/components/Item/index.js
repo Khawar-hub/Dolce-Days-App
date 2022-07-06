@@ -29,7 +29,7 @@ const Button = ({
          
             <Image
             source={{uri:img}}
-            resizeMode="contain"
+            resizeMode="cover"
             style={styles.imageStyle}
             
           />
@@ -44,7 +44,7 @@ const Button = ({
           <View style={[styles.topView,{marginTop:height(3.6)}]}>
               <Text style={styles.des}>{des}</Text>
          
-              <TouchableOpacity onPress={cartPress} style={[styles.cartBtn,{marginRight:width(6),backgroundColor:user?.color}]}>
+              <TouchableOpacity onPress={cartPress} style={[styles.cartBtn,{marginRight:width(6),backgroundColor:user?.OrgColor}]}>
                  <Ionic size={Platform.OS=='ios'?20:17} name='cart-outline' color={'#fff'}/>
               </TouchableOpacity>
 

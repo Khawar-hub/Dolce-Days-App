@@ -67,7 +67,7 @@ export default function Home(props) {
         <TouchableOpacity
         key={index} 
         onPress={()=>{
-          props.navigation.navigate('Detail')
+          props.navigation.navigate('Detail',{products:item.Products})
         }} 
         style={styles.box}>
           <ImageBackground

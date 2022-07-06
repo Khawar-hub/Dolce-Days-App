@@ -21,11 +21,11 @@ export default function PickerModal({
           size={24}
           />
           <Text style={{fontFamily:'Quicksand-Bold',marginTop:height(0.8)}}>Upload your picture</Text>
-          <TouchableOpacity onPress={onDone}  style={[styles.loginBtn,{backgroundColor:user?.color}]}>
+          <TouchableOpacity onPress={onDone}  style={[styles.loginBtn,{backgroundColor:user?.OrgColor}]}>
       <Text style={styles.btnText}>Upload</Text>
       
       </TouchableOpacity>
-      <TouchableOpacity onPress={onDone2} style={[styles.loginBtn,{backgroundColor:user?.color}]}>
+      <TouchableOpacity onPress={onDone2} style={[styles.loginBtn,{backgroundColor:user?.OrgColor}]}>
       <Text style={styles.btnText}>Take Picture</Text>
       
       </TouchableOpacity>

@@ -81,8 +81,8 @@ export default function Profile(props) {
       <View style={styles.mainViewContainer}>
       <View style={styles.imageView}>
         <Image
-          source={require('../../assets/images/logo.png')}
-          resizeMode="contain"
+          source={{uri:user?.OrgLogo}}
+          resizeMode="cover"
           style={styles.imageStyle} 
           
         />
@@ -173,7 +173,7 @@ export default function Profile(props) {
         </View>
         <View style={styles.infoView}>
         <Text style={styles.info}>
-          To add more credit to your wallet please contact your organiztion +971 xxx xxx xxx
+          To add more credit to your wallet please contact your organiztion {user?.OrgPhone}
         </Text>
         </View>
         
@@ -181,12 +181,12 @@ export default function Profile(props) {
                 <TouchableOpacity onPress={()=>{
                   alert('Changes Saved!')
                   props.navigation.goBack()
-                }} style={[styles.btnSmall,{backgroundColor:user?.color}]}>
+                }} style={[styles.btnSmall,{backgroundColor:user?.OrgColor}]}>
                    <Text style={styles.btnSmallText}>Save</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={()=>{
                   props.navigation.goBack()
-                }} style={[styles.btnSmall,{backgroundColor:user?.color}]}>
+                }} style={[styles.btnSmall,{backgroundColor:user?.OrgColor}]}>
                 <Text style={styles.btnSmallText}>Cancel</Text>
                 </TouchableOpacity>
 

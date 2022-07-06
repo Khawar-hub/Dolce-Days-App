@@ -15,6 +15,7 @@ import { setLoaderVisible } from '../../Redux/Actions/Config';
 export default function Home(props) {
   console.log(props.route?.params)
   const{products}=props.route?.params
+  const user = useSelector((state) => state.Auth.user);
   const[item,setItem]=useState([])
   const[isFetching,setIsFetching]=useState(false)
   useEffect(()=>{
@@ -67,10 +68,10 @@ const getItems=async()=>{
         onPress={()=>props.navigation.navigate("ItemDetail",{
          data: item
         })}
-          name={item?.name}
-          price={parseInt(item?.price)}
-          des={item?.description}
-          img={item?.logo}
+          name={item?.ProdName}
+          price={parseInt(item?.ProdPrice)}
+          des={item?.ProdDescription}
+          img={item?.ProdLogo}
            
         />
       )
@@ -84,8 +85,8 @@ const getItems=async()=>{
       <View style={styles.mainViewContainer}>
       <View style={styles.imageView}>
         <Image
-          source={require('../../assets/images/logo.png')}
-          resizeMode="contain"
+          source={{uri:user?.OrgLogo}}
+          resizeMode="cover"
           style={styles.imageStyle} 
           
         />
