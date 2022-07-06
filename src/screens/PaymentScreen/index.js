@@ -237,9 +237,7 @@ const[cvv,setCvv]=useState(null)
           <TextInput
           style={styles.input}
           ref={ref1}
-          onSubmitEditing={() => ref2.current.focus()}
-          blurOnSubmit={false}
-          returnKeyLabel={'Next'}
+        
           placeholder="Enter 16-digit Number"
           maxLength={16}
           keyboardType="numbers-and-punctuation"

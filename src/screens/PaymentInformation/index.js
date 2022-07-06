@@ -167,7 +167,7 @@ export default function Profile(props) {
 
                     </TouchableOpacity>
                     <Text style={styles.checkBoxText2}>
-                        Pay with Wallet Balance : AED {user?.wallet}
+                        Pay with Wallet Balance : AED {user?.UserWallet}
                     </Text>
 
         </View>
