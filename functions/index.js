@@ -5,6 +5,7 @@ const stripe = require('stripe')(
   );
   admin.initializeApp()
 exports.saveCard = functions.https.onRequest(async (req, res) => {
+  
     try {
       let customer;
       const userDoc = await admin
@@ -43,6 +44,7 @@ exports.saveCard = functions.https.onRequest(async (req, res) => {
       });
       _// console.log(JSON.stringify(card))_
     } catch (error) {
+      console.log(error)
       res.send({success: false, message: 'Error: ' + JSON.stringify(error)});
       console.log(JSON.stringify(error));
     }

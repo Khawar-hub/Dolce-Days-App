@@ -889,7 +889,7 @@ export const getAllData = async (collection) => {
 // }
 export const saveCard = async (body) => {
   try {
-    console.log('====> entered api function');
+    console.log('====> entered api function',body);
     const response = await fetch(
       'https://us-central1-dolcedays-6a18d.cloudfunctions.net/saveCard',
 
@@ -902,7 +902,9 @@ export const saveCard = async (body) => {
         body: JSON.stringify(body),
       },
     );
+
     const resultObject = await response.json();
+    console.log(resultObject)
     return resultObject;
   } catch (error) {
     console.log(error);

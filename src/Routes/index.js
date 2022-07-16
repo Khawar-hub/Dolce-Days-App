@@ -26,13 +26,20 @@ export default function Routes() {
     let user = auth()?.currentUser;
     if (user) {
      console.log(user)
-      const res = await getData('Users', user.uid);
-      if (res.data) {
-        dispatch(login(res.data))
-        SplashScreen.hide();
-      }else{
-        SplashScreen.hide();
-      }
+     const res= await getData('Users',auth().currentUser?.uid)
+      
+      const resp= await getData('Organizations',res.data?.OrgId)
+       
+       if(resp.data){
+        
+      
+          dispatch(login({...res.data,...resp.data}))
+    
+          SplashScreen.hide()
+       }else{
+        SplashScreen.hide()
+       }
+     
   }
   SplashScreen.hide();}
  

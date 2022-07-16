@@ -132,7 +132,7 @@ const[cvv,setCvv]=useState(null)
         console.log(token);
         const res = await saveCard({
           uid: user?.id,
-          email: user?.email,
+          email: user?.UserEmail,
           token: token?.tokenId,
         });
         if (res?.success) {

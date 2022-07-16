@@ -72,6 +72,7 @@ const getItems=async()=>{
           price={parseInt(item?.ProdPrice)}
           des={item?.ProdDescription}
           img={item?.ProdLogo}
+          check={true}
            
         />
       )
