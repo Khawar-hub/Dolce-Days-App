@@ -1,11 +1,11 @@
 const functions = require("firebase-functions");
 const admin=require("firebase-admin")
-const stripe = require('stripe')(
-    'sk_test_51L8zqVJe12k0EsGWAR4goMtFBqMJ1uhCJIEEjR65eHUWpAvPlSDa5gN1zwM6PpjsanR0juDE9PFQeDEYAhlv4fMt00qgquvrnB',
-  );
+
   admin.initializeApp()
 exports.saveCard = functions.https.onRequest(async (req, res) => {
-  
+  const stripe = require('stripe')(
+    req.body.secretkey
+  );
     try {
       let customer;
       const userDoc = await admin
@@ -51,6 +51,9 @@ exports.saveCard = functions.https.onRequest(async (req, res) => {
   });
   
   exports.payWithStripeCard = functions.https.onRequest((request, response) => {
+    const stripe = require('stripe')(
+     request.body.secretkey
+    );
     stripe.charges
       .create({
         amount: Number(request.body.amount) * 100,
@@ -70,17 +73,4 @@ exports.saveCard = functions.https.onRequest(async (req, res) => {
       });
   });
   
-  exports.refundBookingPayment = functions.https.onRequest(
-    (request, response) => {
-      stripe.refunds
-        .create({
-          charge: request.body.paymentId,
-        })
-        .then(async (charge) => {
-          response.send(charge);
-        })
-        .catch((err) => {
-          console.log('ERROR: ', JSON.stringify(err));
-        });
-    },
-  );
+ 

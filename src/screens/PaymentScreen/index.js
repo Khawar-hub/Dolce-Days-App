@@ -19,11 +19,7 @@ import { emptyCart } from '../../Redux/Actions/Cart';
 import firestore from '@react-native-firebase/firestore'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import auth from '@react-native-firebase/auth'
-stripe.setOptions({
-  publishableKey: 'pk_test_51L8zqVJe12k0EsGWV7nZI4Bx4GWEOnuP0L0BDRCqlrEgfIf53uzA0leAa2tbYqoRq65LgsJGy6QVf0Pq34pUo3hx00SUs656iO',
-  merchantId: 'MERCHANT_ID', // Optional
-  androidPayMode: 'test', // Android only
-})
+
 export default function Cart(props) {
   useEffect(async()=>{
     if(await AsyncStorage.getItem('payType')=='wallet'){
@@ -89,6 +85,11 @@ const[cardNumber,setCardNumber]=useState(null)
 const[expiry,setExpiry]=useState(null)
 const[cvv,setCvv]=useState(null)
   const AddPayment = async () => {
+    stripe.setOptions({
+      publishableKey: user?.StripeKey,
+      merchantId: 'MERCHANT_ID', // Optional
+      androidPayMode: 'test', // Android only
+    })
     if (!cardName) {
       SimpleToast.show("Enter card name ")
       return;
@@ -129,18 +130,20 @@ const[cvv,setCvv]=useState(null)
         cvc: cvv,
       });
       if (token) {
-        console.log(token);
+     
         const res = await saveCard({
-          uid: user?.id,
+          uid: auth().currentUser.uid,
           email: user?.UserEmail,
           token: token?.tokenId,
+          secretkey:user?.SecretKey
         });
         if (res?.success) {
+      
           let temp = [];
           temp = user?.card ?? [];
           temp.push(res?.card);
-          console.log(temp,'======');
-          SimpleToast.show(res.message)
+
+       
           dispatch(
             login({
               ...user,
@@ -148,12 +151,13 @@ const[cvv,setCvv]=useState(null)
               stripeCustomer: res?.stripeCustomer,
             }),
           );
-          console.log(res?.stripeCustomer, 'customer');
+        
           await payWithStripeCard({
             amount:total,
             currency:'usd',
             token:user?.card[0].id,
             customer:user?.card[0].customer,
+            secretkey:user?.SecretKey
             
 
           
@@ -188,8 +192,11 @@ const[cvv,setCvv]=useState(null)
           }
           setshow(true)
           dispatch(emptyCart())
-          SimpleToast.show("Order Placed",3)
-          props.navigation.goBack();
+          SimpleToast.show("Order Placed",6)
+          
+            props.navigation.goBack();
+       
+     
         
         } else {
           console.log(res?.message.Error);
