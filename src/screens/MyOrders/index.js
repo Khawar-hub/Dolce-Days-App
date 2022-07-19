@@ -14,6 +14,7 @@ import {getAllData, getData} from '../../backend/Firebase'
 import { setLoaderVisible } from '../../Redux/Actions/Config';
 import firestore from '@react-native-firebase/firestore'
 import ProductModal from '../../components/ProductsModal'
+import auth from '@react-native-firebase/auth'
 export default function Home(props) {
     const[show,setshow]=useState(false)
     const user = useSelector((state) => state.Auth.user);
@@ -30,7 +31,7 @@ const getItems=async()=>{
   const data=await getAllData('New Orders')
   if(data.success){
     data?.data?.map((item)=>{
-        if(item.CustomerId==user?.id){
+        if(item.CustomerId==auth().currentUser.uid){
             temp.push(item)
         }
 

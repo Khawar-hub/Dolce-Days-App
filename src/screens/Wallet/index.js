@@ -76,7 +76,7 @@ export default function ChangeOrganization(props) {
 
         </Text >
         <Text style={styles.info}>
-         organization +971 xxx xxx xxx
+         organization {user?.OrgPhone}
 
         </Text>
         </View>

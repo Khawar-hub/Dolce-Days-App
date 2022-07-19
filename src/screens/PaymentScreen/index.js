@@ -84,7 +84,57 @@ const [cardName,setCardName]=useState(null)
 const[cardNumber,setCardNumber]=useState(null)
 const[expiry,setExpiry]=useState(null)
 const[cvv,setCvv]=useState(null)
+
   const AddPayment = async () => {
+    if(checked2&&parseInt(user?.UserWallet)<total){
+  
+      SimpleToast.show('Insufficient balance in wallet',2)
+   
+  
+    }
+   else if(await AsyncStorage.getItem('payType')=='wallet'||checked2){
+      dispatch(setLoaderVisible(true))
+      const _id = firestore().collection('Random').doc().id;
+      await saveData('New Orders',_id,{
+        oid:_id,
+        CustomerId:user?.id,
+        Organization:user?.OrgName,
+        OrganizationId:user?.OrgId,
+        CustomerEmailBy:user?.UserEmail,
+        CustomerName:user?.UserName,
+        products:cart,
+        ammount:total,
+        billingMethod:'Wallet',
+        status:'paid',
+        createdAt:moment().valueOf()
+      })
+     
+        const data=await getData('Users',auth().currentUser.uid)
+        if(data.success){
+          let newWallet=parseInt(data?.data?.UserWallet)-total
+          console.log(newWallet)
+          await saveData('Users',auth().currentUser.uid,{
+            UserWallet :newWallet
+          })
+          const newData=await getData("Users",auth().currentUser.uid)
+
+        
+          dispatch(login({...newData.data,OrgColor:user?.OrgColor}))
+        }
+      
+      setshow(true)
+      dispatch(emptyCart())
+      
+      SimpleToast.show("Order Placed",6)
+      setTimeout(() => {
+        props.navigation.goBack();
+      }, 2000);
+   
+        dispatch(setLoaderVisible(false))
+ 
+    
+    
+    }else{
     stripe.setOptions({
       publishableKey: user?.StripeKey,
       merchantId: 'MERCHANT_ID', // Optional
@@ -114,12 +164,8 @@ const[cvv,setCvv]=useState(null)
       SimpleToast.show("Enter valid cvv code i-e xxx")
       return;
     }
-    if(await AsyncStorage.getItem('payType')=='wallet'&&user?.wallet<total){
-  
-        SimpleToast.show('Insufficient balance in wallet',2)
-     
-       return;
-    }
+   
+    
     dispatch(setLoaderVisible(true))
     try {
       const token = await stripe.createTokenWithCard({
@@ -177,19 +223,7 @@ const[cvv,setCvv]=useState(null)
             status:'Unpaid',
             createdAt:moment().valueOf()
           })
-          if(await AsyncStorage.getItem('payType')=='wallet'){
-            const data=await getData('Users',auth().currentUser.uid)
-            if(data.success){
-              let newWallet=data?.data?.wallet-total
-              await saveData('Users',auth().currentUser.uid,{
-                wallet :newWallet
-              })
-              const newData=await getData("Users",auth().currentUser.uid)
-
-            
-              dispatch(login({...newData.data,color:user?.color}))
-            }
-          }
+          
           setshow(true)
           dispatch(emptyCart())
           SimpleToast.show("Order Placed",6)
@@ -212,7 +246,7 @@ const[cvv,setCvv]=useState(null)
       console.log(error);
       SimpleToast.show("Invalid Card",2)
       dispatch(setLoaderVisible(false))
-    }
+    }}
   };
   return (
     <ScreenWrapper statusBarColor={'#f2f2f2'} >
@@ -353,7 +387,7 @@ const[cvv,setCvv]=useState(null)
         </View>
         <View style={styles.infoView}>
         <Text style={styles.info}>
-          To add more credit to your wallet please contact your organiztion +971 xxx xxx xxx
+          To add more credit to your wallet please contact your organiztion {user?.OrgPhone}
         </Text>
         </View>
 

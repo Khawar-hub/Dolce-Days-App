@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from 'react';
-import { Text, View,Image,TouchableOpacity, ImageBackground, ScrollView } from 'react-native';
+import { Text, View,Image,TouchableOpacity, ImageBackground, ScrollView, FlatList } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
 
 import { ScreenWrapper } from 'react-native-screen-wrapper';
@@ -18,7 +18,9 @@ export default function Home(props) {
   useEffect(()=>{
      getMenu()
   },[])
+  const[isFetching,setIsFetching]=useState(false)
   const getMenu=async()=>{ 
+    setIsFetching(true)
          let temp=[]
         dispatch(setLoaderVisible(true))
         for(let i=0;i<user?.Categories?.length;i++){
@@ -30,7 +32,7 @@ export default function Home(props) {
         }
        
         setMenu(temp)
-     
+        setIsFetching(false)
        dispatch(setLoaderVisible(false))
       
           
@@ -45,26 +47,10 @@ export default function Home(props) {
     });
     dispatch(logout());
   };
-  return (
-    <ScreenWrapper  statusBarColor={'#f2f2f2'}  >
-      <View style={styles.mainViewContainer}>
-    
-        <ImageBackground
-          source={{uri:user?.OrgLogo}}
-          resizeMode="cover"
-          style={styles.imageStyle}
-          
-        />
-        
-        <Text style={styles.textHeading}>Menu</Text>
-        <ScrollView>
-        <View style={styles.boxView}>
-          {menu?.map((item,index)=>{
-          
-            return(
-
-           <>
-        <TouchableOpacity
+  const renderItem=({item,index})=>{
+ 
+    return(
+      <TouchableOpacity
         key={index} 
         onPress={()=>{
           props.navigation.navigate('Detail',{products:item.Products})
@@ -77,57 +63,35 @@ export default function Home(props) {
           />
            <Text style={styles.textHeading2}>{item.CatName}</Text>
         </TouchableOpacity>
+    )
+}
+  return (
+    <ScreenWrapper  statusBarColor={'#f2f2f2'}  >
+      <View style={styles.mainViewContainer}>
+    
+        <ImageBackground
+          source={{uri:user?.OrgLogo}}
+          resizeMode="cover"
+          style={styles.imageStyle}
+          
+        />
+        
+        <Text style={styles.textHeading}>Menu</Text>
+     
+        <FlatList
+         
+         data={menu}
+         renderItem={renderItem}
+         keyExtractor={(item, index) => index.toString()}
+      
+          
+          refreshing={isFetching}
+          onRefresh={getMenu}
+         />
 
-        {/* <TouchableOpacity
-         onPress={()=>{
-          props.navigation.navigate('Detail',{
-            name:'Tea'
-          })
-        }} 
-         style={styles.box}>
-          <Image
-           source={require('../../assets/images/logo.png')}
-           resizeMode="cover"
-           style={styles.boxImage}
-          />
-           <Text style={styles.textHeading2}>Tea</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-         onPress={()=>{
-          props.navigation.navigate('Detail',{
-            name:'Snacks'
-          })
-        }} 
-         style={styles.box}>
-          <Image
-           source={require('../../assets/images/logo.png')}
-           resizeMode="cover"
-           style={styles.boxImage}
-          />
-           <Text style={styles.textHeading2}>Snacks</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-         onPress={()=>{
-          props.navigation.navigate('Detail',{
-            name:'Dessert'
-          })
-        }} 
-         style={styles.box}>
-          <Image
-           source={require('../../assets/images/logo.png')}
-           resizeMode="cover"
-           style={styles.boxImage}
-          />
-           <Text style={styles.textHeading2}>Dessert</Text>
-        </TouchableOpacity> */}
-        </>
-         )
-
-        })}
-        </View>
-        </ScrollView>
+          
+         
+       
       </View>
     </ScreenWrapper>
   );

@@ -45,6 +45,7 @@ const styles = StyleSheet.create({
     alignItems:'center',
     justifyContent:'center',
     marginTop:height(6),
+
   
  
    
@@ -52,7 +53,7 @@ const styles = StyleSheet.create({
   boxImage:
   { height:height(9),
     width:width(90),
-    tintColor:'#333333'
+ 
 
   }
 });

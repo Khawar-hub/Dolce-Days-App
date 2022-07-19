@@ -50,9 +50,9 @@ export default function Profile(props) {
     
     console.log(coverPhoto,'2')
    
-    await saveData('Users', user.id, {profilePic: coverPhoto});
+    await saveData('Users', auth().currentUser.uid, {profilePic: coverPhoto});
     console.log('3')
-   const userData=await getData('Users',user?.id)
+   const userData=await getData('Users',auth().currentUser.uid)
    console.log(userData)
    let obj={
     ...user,
