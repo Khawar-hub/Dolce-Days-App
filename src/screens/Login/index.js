@@ -291,14 +291,17 @@ const pickerSelectStyles = StyleSheet.create({
 
   },
   inputAndroid: {
-    marginVertical: 6,
-    paddingLeft: 15,
-    borderRadius: 7,
-    fontSize: 14,
-    color: '#000',
-    backgroundColor: '#F7F8FB',
-    height: 40,
-    width: '100%',
+    marginVertical: 4,
+  
+    textAlign:'center',
+ 
+    width: '50%',
+  
+    backgroundColor:'transparent',
+    fontSize: 12,
+     alignSelf:'center',
+    // color: AppColors.btnBackgroundColorDark,
+    borderRadius: 2,
   },
  
 });
