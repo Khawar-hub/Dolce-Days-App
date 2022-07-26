@@ -92,7 +92,7 @@ export default function Profile(props) {
                   <Text style={styles.textHeading}>Payment Information</Text>
                  
               </View>
-              <View style={styles.paymentView}>
+              {/* <View style={styles.paymentView}>
                     <TouchableOpacity onPress={async()=>{
                         if(checked){
                         setIsChecked(false)
@@ -143,9 +143,9 @@ export default function Profile(props) {
                    
                     <Text style={styles.checkBoxText2}>
                         Pay with Card Ending : ***
-                    </Text>
+                    </Text> */}
 
-        </View>
+       
 
         <View style={styles.paymentView}>
                     <TouchableOpacity onPress={async()=>{

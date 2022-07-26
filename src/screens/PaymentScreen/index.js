@@ -45,6 +45,7 @@ export default function Cart(props) {
 
   const[checked,setIsChecked]=useState(false)
   const[checked2,setIsChecked2]=useState(false)
+    const[checked3,setIsChecked3]=useState(false)
   const[show,setshow]=useState(false)
   const dispatch = useDispatch();
   const ref1=useRef()
@@ -86,13 +87,14 @@ const[expiry,setExpiry]=useState(null)
 const[cvv,setCvv]=useState(null)
 
   const AddPayment = async () => {
-    if(checked2&&parseInt(user?.UserWallet)<total){
+   
+   if(await AsyncStorage.getItem('payType')=='wallet'||checked){
+     if(checked&&parseInt(user?.UserWallet)<total){
   
       SimpleToast.show('Insufficient balance in wallet',2)
    
   
-    }
-   else if(await AsyncStorage.getItem('payType')=='wallet'||checked2){
+    }else{
       dispatch(setLoaderVisible(true))
       const _id = firestore().collection('Random').doc().id;
       await saveData('New Orders',_id,{
@@ -133,120 +135,198 @@ const[cvv,setCvv]=useState(null)
         dispatch(setLoaderVisible(false))
  
     
-    
-    }else{
-    stripe.setOptions({
-      publishableKey: user?.StripeKey,
-      merchantId: 'MERCHANT_ID', // Optional
-      androidPayMode: 'test', // Android only
-    })
-    if (!cardName) {
-      SimpleToast.show("Enter card name ")
-      return;
     }
-    if (!cardNumber) {
-     SimpleToast.show('Enter 16 digit card number')
-      return;
-    }
-    if (cardNumber?.length < 16) {
-      SimpleToast.show('Please enter valid card number');
-      return;
-    }
-    if (!expiry) {
-      SimpleToast.show("Enter expiry date")
-      return;
-    }
-    if (!cvv) {
-      SimpleToast.show("Enter Cvv code")
-      return;
-    }
-    if (cvv?.length < 3) {
-      SimpleToast.show("Enter valid cvv code i-e xxx")
-      return;
-    }
+    } else if(await AsyncStorage.getItem('payType')=='cash'||checked2){
+      dispatch(setLoaderVisible(true))
+      const _id = firestore().collection('Random').doc().id;
+      await saveData('New Orders',_id,{
+        oid:_id,
+        CustomerId:user?.id,
+        Organization:user?.OrgName,
+        OrganizationId:user?.OrgId,
+        CustomerEmailBy:user?.UserEmail,
+        CustomerName:user?.UserName,
+        products:cart,
+        ammount:total,
+        billingMethod:'Cash',
+        status:'unpaid',
+        createdAt:moment().valueOf()
+      })
+     
+        // const data=await getData('Users',auth().currentUser.uid)
+        // if(data.success){
+        //   let newWallet=parseInt(data?.data?.UserWallet)-total
+        //   console.log(newWallet)
+        //   await saveData('Users',auth().currentUser.uid,{
+        //     UserWallet :newWallet
+        //   })
+        //   const newData=await getData("Users",auth().currentUser.uid)
+
+        
+        //   dispatch(login({...newData.data,OrgColor:user?.OrgColor}))
+        // }
+      
+      setshow(true)
+      dispatch(emptyCart())
+      
+      SimpleToast.show("Order Placed",6)
+      setTimeout(() => {
+        props.navigation.goBack();
+      }, 2000);
+   
+        dispatch(setLoaderVisible(false))
+    // stripe.setOptions({
+    //   publishableKey: user?.StripeKey,
+    //   merchantId: 'MERCHANT_ID', // Optional
+    //   androidPayMode: 'test', // Android only
+    // })
+    // if (!cardName) {
+    //   SimpleToast.show("Enter card name ")
+    //   return;
+    // }
+    // if (!cardNumber) {
+    //  SimpleToast.show('Enter 16 digit card number')
+    //   return;
+    // }
+    // if (cardNumber?.length < 16) {
+    //   SimpleToast.show('Please enter valid card number');
+    //   return;
+    // }
+    // if (!expiry) {
+    //   SimpleToast.show("Enter expiry date")
+    //   return;
+    // }
+    // if (!cvv) {
+    //   SimpleToast.show("Enter Cvv code")
+    //   return;
+    // }
+    // if (cvv?.length < 3) {
+    //   SimpleToast.show("Enter valid cvv code i-e xxx")
+    //   return;
+    // }
    
     
-    dispatch(setLoaderVisible(true))
-    try {
-      const token = await stripe.createTokenWithCard({
-        name: cardName,
-        number: cardNumber,
-        expMonth: parseInt(moment(expiry).format('MM')),
-        expYear: parseInt(moment(expiry).format('YY')),
-        cvc: cvv,
-      });
-      if (token) {
+    // dispatch(setLoaderVisible(true))
+    // try {
+    //   const token = await stripe.createTokenWithCard({
+    //     name: cardName,
+    //     number: cardNumber,
+    //     expMonth: parseInt(moment(expiry).format('MM')),
+    //     expYear: parseInt(moment(expiry).format('YY')),
+    //     cvc: cvv,
+    //   });
+    //   if (token) {
      
-        const res = await saveCard({
-          uid: auth().currentUser.uid,
-          email: user?.UserEmail,
-          token: token?.tokenId,
-          secretkey:user?.SecretKey
-        });
-        if (res?.success) {
+    //     const res = await saveCard({
+    //       uid: auth().currentUser.uid,
+    //       email: user?.UserEmail,
+    //       token: token?.tokenId,
+    //       secretkey:user?.SecretKey
+    //     });
+    //     if (res?.success) {
       
-          let temp = [];
-          temp = user?.card ?? [];
-          temp.push(res?.card);
+    //       let temp = [];
+    //       temp = user?.card ?? [];
+    //       temp.push(res?.card);
 
        
-          dispatch(
-            login({
-              ...user,
-              card: temp,
-              stripeCustomer: res?.stripeCustomer,
-            }),
-          );
+    //       dispatch(
+    //         login({
+    //           ...user,
+    //           card: temp,
+    //           stripeCustomer: res?.stripeCustomer,
+    //         }),
+    //       );
         
-          await payWithStripeCard({
-            amount:total,
-            currency:'usd',
-            token:user?.card[0].id,
-            customer:user?.card[0].customer,
-            secretkey:user?.SecretKey
+    //       await payWithStripeCard({
+    //         amount:total,
+    //         currency:'usd',
+    //         token:user?.card[0].id,
+    //         customer:user?.card[0].customer,
+    //         secretkey:user?.SecretKey
             
 
           
           
-          })
-          const _id = firestore().collection('Random').doc().id;
-          await saveData('New Orders',_id,{
-            oid:_id,
-            CustomerId:user?.id,
-            Organization:user?.OrgName,
-            OrganizationId:user?.OrgId,
-            CustomerEmailBy:user?.UserEmail,
-            CustomerName:user?.UserName,
-            products:cart,
-            ammount:total,
-            billingMethod:'VISA',
-            status:'Unpaid',
-            createdAt:moment().valueOf()
-          })
+    //       })
+    //       const _id = firestore().collection('Random').doc().id;
+    //       await saveData('New Orders',_id,{
+    //         oid:_id,
+    //         CustomerId:user?.id,
+    //         Organization:user?.OrgName,
+    //         OrganizationId:user?.OrgId,
+    //         CustomerEmailBy:user?.UserEmail,
+    //         CustomerName:user?.UserName,
+    //         products:cart,
+    //         ammount:total,
+    //         billingMethod:'VISA',
+    //         status:'Unpaid',
+    //         createdAt:moment().valueOf()
+    //       })
           
-          setshow(true)
-          dispatch(emptyCart())
-          SimpleToast.show("Order Placed",6)
+    //       setshow(true)
+    //       dispatch(emptyCart())
+    //       SimpleToast.show("Order Placed",6)
           
-            props.navigation.goBack();
+    //         props.navigation.goBack();
        
      
         
-        } else {
-          console.log(res?.message.Error);
-          SimpleToast.show("Invalid Card",2)
-        }
-        console.log(res);
-        dispatch(setLoaderVisible(false))
-      } else {
-        SimpleToast.show("Invalid Card",2)
-        dispatch(setLoaderVisible(false))
-      }
-    } catch (error) {
-      console.log(error);
-      SimpleToast.show("Invalid Card",2)
+    //     } else {
+    //       console.log(res?.message.Error);
+    //       SimpleToast.show("Invalid Card",2)
+    //     }
+    //     console.log(res);
+    //     dispatch(setLoaderVisible(false))
+    //   } else {
+    //     SimpleToast.show("Invalid Card",2)
+    //     dispatch(setLoaderVisible(false))
+    //   }
+    // } catch (error) {
+    //   console.log(error);
+    //   SimpleToast.show("Invalid Card",2)
+    //   dispatch(setLoaderVisible(false))
+    // }
+  }else if(await AsyncStorage.getItem('payType')=='card'||checked3){
+    dispatch(setLoaderVisible(true))
+    const _id = firestore().collection('Random').doc().id;
+    await saveData('New Orders',_id,{
+      oid:_id,
+      CustomerId:user?.id,
+      Organization:user?.OrgName,
+      OrganizationId:user?.OrgId,
+      CustomerEmailBy:user?.UserEmail,
+      CustomerName:user?.UserName,
+      products:cart,
+      ammount:total,
+      billingMethod:'Card',
+      status:'unpaid',
+      createdAt:moment().valueOf()
+    })
+   
+      // const data=await getData('Users',auth().currentUser.uid)
+      // if(data.success){
+      //   let newWallet=parseInt(data?.data?.UserWallet)-total
+      //   console.log(newWallet)
+      //   await saveData('Users',auth().currentUser.uid,{
+      //     UserWallet :newWallet
+      //   })
+      //   const newData=await getData("Users",auth().currentUser.uid)
+
+      
+      //   dispatch(login({...newData.data,OrgColor:user?.OrgColor}))
+      // }
+    
+    setshow(true)
+    dispatch(emptyCart())
+    
+    SimpleToast.show("Order Placed",6)
+    setTimeout(() => {
+      props.navigation.goBack();
+    }, 2000);
+ 
       dispatch(setLoaderVisible(false))
-    }}
+  }
   };
   return (
     <ScreenWrapper statusBarColor={'#f2f2f2'} >
@@ -264,7 +344,7 @@ const[cvv,setCvv]=useState(null)
         <Text style={styles.textHeading}>Payment</Text>
         <Text style={styles.textHeadingNormal}>All transactions are secure and encrypted.</Text>
 
-        <View>
+        {/* <View>
           <Text style={styles.label}>Cardholder Name</Text>
           <TextInput
   
@@ -364,17 +444,21 @@ const[cvv,setCvv]=useState(null)
         style={{marginTop:height(1)}}
         />
         <Text style={styles.checkBoxText}>Save my credit card Information</Text>
-        </View>
-        <Text style={styles.text2}>Or Pay with Wallet Balance</Text>
+        </View> */}
+        <Text style={styles.text2}>Pay with Wallet Balance</Text>
         <View style={styles.paymentView}>
-          <TouchableOpacity onPress={()=>{
-            if(checked2){
-              setIsChecked2(false)
-            }else
-            setIsChecked2(true)
+          <TouchableOpacity onPress={async()=>{
+                        if(checked){
+                        setIsChecked(false)
+                        }else{
+                        setIsChecked(true)
+                        await AsyncStorage.getItem('payType')=='wallet'
+                        setIsChecked2(false)
+                        setIsChecked3(false)
+                        }
 
-            }} style={styles.checkbox}>
-              {checked2?
+                        }} style={styles.checkbox}>
+              {checked?
             <View style={styles.checkbox2}>
 
             </View>:null}
@@ -382,6 +466,54 @@ const[cvv,setCvv]=useState(null)
           </TouchableOpacity>
           <Text style={styles.checkBoxText2}>
             Pay with Wallet Balance : AED {user?.UserWallet}
+          </Text>
+        {console.log(user?.wallet)}
+        </View>
+        <Text style={styles.text2}>Cash on Delivery</Text>
+        <View style={styles.paymentView}>
+          <TouchableOpacity onPress={async()=>{
+                        if(checked2){
+                        setIsChecked2(false)
+                        }else{
+                        setIsChecked2(true)
+                        await AsyncStorage.getItem('payType')=='cash'
+                        setIsChecked(false)
+                        setIsChecked3(false)
+                        }
+
+                        }} style={styles.checkbox}>
+              {checked2?
+            <View style={styles.checkbox2}>
+
+            </View>:null}
+
+          </TouchableOpacity>
+          <Text style={styles.checkBoxText2}>
+          Cash on Delivery
+          </Text>
+        {console.log(user?.wallet)}
+        </View>
+         <Text style={styles.text2}>Card on Delivery</Text>
+        <View style={styles.paymentView}>
+          <TouchableOpacity onPress={async()=>{
+                        if(checked3){
+                        setIsChecked3(false)
+                        }else{
+                        setIsChecked3(true)
+                        await AsyncStorage.getItem('payType')=='card'
+                        setIsChecked(false)
+                        setIsChecked2(false)
+                        }
+
+                        }} style={styles.checkbox}>
+              {checked3?
+            <View style={styles.checkbox2}>
+
+            </View>:null}
+
+          </TouchableOpacity>
+          <Text style={styles.checkBoxText2}>
+          Card on Delivery
           </Text>
         {console.log(user?.wallet)}
         </View>
