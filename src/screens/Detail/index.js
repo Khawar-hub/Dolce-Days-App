@@ -69,12 +69,12 @@ const getItems=async()=>{
           cart?.map((i)=>{
             console.log(i.id,item.id)
              if(i.id==item.id){
-              dispatch(setAddQuantity({index:index,price:item.ProdPrice,quantity:item.quantity+1}))
+              dispatch(setAddQuantity({index:index,price:item.ProdPrice,quantity:1}))
               
              }
              else{
-             
-             }
+              dispatch(addItem([...cart,{...item,quantity:1}]))
+            }
           })
 
         }

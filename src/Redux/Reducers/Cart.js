@@ -17,8 +17,9 @@ const reducer = (state = intialState, action) => {
             }
         }
 case ADDQUANTITY:{
+  
     let temp=[...state.cart]
-    temp[action.payload.index].quantity=action?.payload?.quantity
+    temp[action.payload.index].quantity=temp[action.payload.index].quantity+action?.payload?.quantity
    
     return{
         ...state,

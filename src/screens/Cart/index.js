@@ -37,7 +37,7 @@ export default function Cart(props) {
         img={item.ProdLogo}
         quantity={item?.quantity}
         onPressAdd={()=>{
-          console.log(index);
+          
           
           dispatch(setAddQuantity({index:index,price:item.ProdPrice,quantity:item.quantity+1}))
         }}
