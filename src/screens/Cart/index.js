@@ -38,6 +38,7 @@ export default function Cart(props) {
         quantity={item?.quantity}
         onPressAdd={()=>{
           console.log(index);
+          
           dispatch(setAddQuantity({index:index,price:item.ProdPrice,quantity:item.quantity+1}))
         }}
         onPressRemove={()=>{

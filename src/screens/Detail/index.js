@@ -9,7 +9,7 @@ import Button from '../../components/Button';
 import { logout } from '../../Redux/Actions/Auth';
 import AppColors from '../../utills/AppColors';
 import styles from './styles';
-import { addItem } from '../../Redux/Actions/Cart';
+import { addItem, setAddQuantity } from '../../Redux/Actions/Cart';
 import {getData} from '../../backend/Firebase'
 import { setLoaderVisible } from '../../Redux/Actions/Config';
 export default function Home(props) {
@@ -63,7 +63,22 @@ const getItems=async()=>{
         <Item
      
         cartPress={()=>{
-          dispatch(addItem([...cart,{...item,quantity:1}]))}
+         if(cart?.length==0){
+          dispatch(addItem([...cart,{...item,quantity:1}]))
+         }else{
+          cart?.map((i)=>{
+            console.log(i.id,item.id)
+             if(i.id==item.id){
+              dispatch(setAddQuantity({index:index,price:item.ProdPrice,quantity:item.quantity+1}))
+              
+             }
+             else{
+             
+             }
+          })
+
+        }
+      }
         }
         onPress={()=>props.navigation.navigate("ItemDetail",{
          data: item
