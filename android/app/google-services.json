@@ -1,10 +1,47 @@
 {
   "project_info": {
     "project_number": "443294078201",
+    "firebase_url": "https://dolcedays-6a18d-default-rtdb.firebaseio.com",
     "project_id": "dolcedays-6a18d",
     "storage_bucket": "dolcedays-6a18d.appspot.com"
   },
   "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:443294078201:android:bac4f6ff5400d3107a3e28",
+        "android_client_info": {
+          "package_name": "com.dolcedaysapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "443294078201-jack90spjlo0m14qagcq8ml026vcs7cl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB9XEiSv2Ny-47szsdk4GAgbOTgT8DVcDM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "443294078201-jack90spjlo0m14qagcq8ml026vcs7cl.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "443294078201-b9olb88pnmqmpkadvhkotprhoon1o002.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.example.ReactNativeBoilerPlaceHermes"
+              }
+            }
+          ]
+        }
+      }
+    },
     {
       "client_info": {
         "mobilesdk_app_id": "1:443294078201:android:afc5e4dc9107ded07a3e28",
@@ -29,6 +66,13 @@
             {
               "client_id": "443294078201-jack90spjlo0m14qagcq8ml026vcs7cl.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "443294078201-b9olb88pnmqmpkadvhkotprhoon1o002.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.example.ReactNativeBoilerPlaceHermes"
+              }
             }
           ]
         }
